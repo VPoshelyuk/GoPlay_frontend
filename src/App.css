@@ -1,0 +1,430 @@
+.App {
+  text-align: center;
+}
+
+:root {
+  --primary-color: rgba(0, 0, 0, 0.85);
+  --overlay-color: rgba(0, 0, 0, 0.7);
+  --menu-speed: 0.75s;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  line-height: 1.4;
+}
+
+/* MENU STYLES */
+header {
+ height: 60px;
+ width: 100vw;
+ background-color: rgb(38, 50, 56);
+}
+
+.logo {
+  height: 60px;
+  float: right;
+  background-color: rgba(247, 17, 17, 0.5);
+}
+
+.menu-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.menu-wrap .toggler {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  cursor: pointer;
+  width: 60px;
+  height: 60px;
+  opacity: 0;
+}
+
+.menu-wrap .hamburger {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 60px;
+  height: 60px;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hamburger Line */
+.menu-wrap .hamburger > div {
+  position: relative;
+  flex: none;
+  width: 100%;
+  height: 2px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s ease;
+}
+
+/* Hamburger Lines - Top & Bottom */
+.menu-wrap .hamburger > div::before,
+.menu-wrap .hamburger > div::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: -10px;
+  width: 100%;
+  height: 2px;
+  background: inherit;
+}
+
+/* Moves Line Down */
+.menu-wrap .hamburger > div::after {
+  top: 10px;
+}
+
+/* Toggler Animation */
+.menu-wrap .toggler:checked + .hamburger > div {
+  transform: rotate(135deg);
+}
+
+/* Turns Lines Into X */
+.menu-wrap .toggler:checked + .hamburger > div:before,
+.menu-wrap .toggler:checked + .hamburger > div:after {
+  top: 0;
+  transform: rotate(90deg);
+}
+
+/* Rotate On Hover When Checked */
+.menu-wrap .toggler:checked:hover + .hamburger > div {
+  transform: rotate(225deg);
+}
+
+/* Show Menu */
+.menu-wrap .toggler:checked ~ .menu {
+  visibility: visible;
+}
+
+.menu-wrap .toggler:checked ~ .menu > div {
+  transform: scale(1);
+  transition-duration: var(--menu-speed);
+}
+
+.menu-wrap .toggler:checked ~ .menu > div > div {
+  opacity: 1;
+  transition: opacity 0.4s ease 0.4s;
+}
+
+.menu-wrap .menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-wrap .menu > div {
+  background: var(--overlay-color);
+  border-radius: 50%;
+  width: 200vw;
+  height: 200vw;
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  transform: scale(0);
+  transition: all 0.4s ease;
+}
+
+.menu-wrap .menu > div > div {
+  text-align: center;
+  max-width: 90vw;
+  max-height: 100vh;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.menu-wrap .menu > div > div > ul > li {
+  list-style: none;
+  color: #fff;
+  font-size: 1.5rem;
+  padding: 1rem;
+}
+
+.menu-wrap .menu > div > div > ul > li > a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.4s ease;
+}
+
+/* =================================================== */
+/* =================LOG         IN==================== */
+/* =================================================== */
+.login-main {
+  background-color: rgb(248, 244, 230);
+  width: 400px;
+  height: 400px;
+  margin: 10em auto;
+  border-radius: 1.5em;
+  box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+}
+
+.signup-main {
+  background-color: rgb(248, 244, 230);
+  width: 400px;
+  height: 620px;
+  margin: 2em auto;
+  border-radius: 1.5em;
+  box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+}
+
+.sign {
+  padding-top: 40px;
+  color: #FFA69E;
+  font-weight: bold;
+  font-size: 23px;
+}
+
+.un {
+  width: 76%;
+  color: rgb(38, 50, 56);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 1px;
+  background: rgba(136, 126, 126, 0.04);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  outline: none;
+  box-sizing: border-box;
+  border: 2px solid rgba(0, 0, 0, 0.02);
+  margin-bottom: 50px;
+  margin-left: 46px;
+  text-align: center;
+  margin-bottom: 27px;
+}
+
+form.form1 {
+  padding-top: 40px;
+}
+
+.pass {
+      width: 76%;
+color: rgb(38, 50, 56);
+font-weight: 700;
+font-size: 14px;
+letter-spacing: 1px;
+background: rgba(136, 126, 126, 0.04);
+padding: 10px 20px;
+border: none;
+border-radius: 20px;
+outline: none;
+box-sizing: border-box;
+border: 2px solid rgba(0, 0, 0, 0.02);
+margin-bottom: 50px;
+margin-left: 46px;
+text-align: center;
+margin-bottom: 27px;
+}
+
+
+.un:focus, .pass:focus {
+  border: 2px solid rgba(0, 0, 0, 0.18) !important;
+  
+}
+
+.submit {
+cursor: pointer;
+  border-radius: 5em;
+  color: #fff;
+  background: linear-gradient(to right, #FFA69E, rgb(252, 196, 191));
+  border: 0;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  margin-left: 35%;
+  font-size: 13px;
+  box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
+}
+
+a {
+  text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
+  color: #E1BEE7;
+  text-decoration: none
+}
+
+@media (max-width: 600px) {
+  .login-main {
+      border-radius: 0px;
+  }
+}
+
+
+/* =================================================== */
+/* =================    CARDS     ==================== */
+/* =================================================== */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
+.my_cards {
+  display: flex;
+  flex-direction: row;
+  overflow: scroll;
+  border-radius: 10px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  width: 95vw;
+  margin: auto;
+  margin-bottom: 10px;
+}
+
+a {
+  text-decoration: none;
+}
+
+figure {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 200px;
+  height: 250px;
+  padding: 3px;
+  background-position: center center;
+  background-repeat: inherit;
+  background-size: 100%;
+  border-radius: 10px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow: hidden;
+}
+figure:before, figure:after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+figure:before {
+  content: '';
+  background-color: rgba(0, 0, 0, 0.1);
+  z-index: 0;
+}
+figure:after {
+  content: '';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow: hidden;
+}
+figure:hover {
+  background-size: 175%;
+}
+figure:hover:after {
+  content: 'More Info';
+  background-color: rgba(255, 166, 158, 0.582);
+  color: white;
+  font-size: 40px;
+  z-index: 2;
+}
+figure:hover figcaption {
+  transform: translateY(-110%);
+}
+figure figcaption {
+  color: white;
+  transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  z-index: 1;
+}
+figure figcaption h4 {
+  margin: 0 0 5px;
+  font-family: "Source Code Pro", sans-serif;
+  font-size: 24px;
+  line-height: 1.35;
+  text-shadow: 1px 1px rgba(0, 0, 0, 0.7);
+}
+figure figcaption h4 > span {
+  background-color: rgba(255, 166, 158, 0.582);
+}
+
+
+/* =================================================== */
+/* =================    MISC      ==================== */
+/* =================================================== */
+
+.main_text {
+  margin: 10px;
+  margin-left: 40px;
+  text-align: left;
+}
+
+.card-main {
+  /* overflow: hidden; */
+  overflow-y: scroll;
+  background-color: rgb(248, 244, 230);
+  align-content: center;
+  max-width: 1380px;
+  height: 88vh;
+  margin: 1em auto;
+  border-radius: 1.5em;
+  box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+}
+
+.not_so_main_div {
+  margin: 20px 80px;
+}
+
+.event_pic {
+  width: 20%;
+  overflow: hidden;
+  text-align: center;
+}
+.event_pic img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.event_qr {
+  float: right;
+  margin-right: 250px;
+}
+
+.like_dislike {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.venue_info {
+  border: 2px solid rgba(255, 166, 158, 0.582) ;
+}
+
+.like_dislike_btn:hover {
+  animation: btn 1s infinite
+}
+
+
+@keyframes btn {
+  0% {width: 50px}
+  30% { width: 80px; }
+  70% { width: 80px; }
+  100% { width: 50px; }
+}
+
+/* width: 80px;
+transition: width .5s ease-in-out */
