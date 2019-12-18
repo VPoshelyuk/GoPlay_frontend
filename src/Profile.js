@@ -1,64 +1,71 @@
 import React, {Fragment} from "react";
-import { Redirect } from "react-router-dom"
+import { Redirect, withRouter } from "react-router-dom"
+import { connect } from 'react-redux'
+import { setUser } from './redux/actions/user_actions'
 import LogOut from './LogOut'
 
-export default class CardsContainer extends React.Component{
+class Profile extends React.Component{
     state = {
-        clicked: false,
-
-        fname: "",
-        lname: "",
-        phonenumber: "",
+        user: "",
         username: "",
-        password_digest: "",
-
+        phone_number: "",
+        edited: false,
         deleted: false
     }
 
     componentDidMount(){
-        this.renderMyInfo()
+        fetch(`http://localhost:3000/api/v1/users`)
+        .then(resp => resp.json())
+        .then(users => {
+            this.setState({
+                user: users.users.data.find(user => user.attributes.username === this.props.match.params.username),
+                username: this.props.currentUser.user.data.attributes.username,
+                phone_number: this.props.currentUser.user.data.attributes.phone_number
+            })
+        })
     }
 
-    renderMyInfo = () => {
-        fetch(`http://localhost:3000/api/v1/users/${this.props.currentUser.id}`)
-            .then(res => res.json())
-            .then(userInfo => this.setState({
-                fname: userInfo.user.fname,
-                lname: userInfo.user.lname,
-                phonenumber: userInfo.user.phonenumber,
-                username: userInfo.user.username,
-                password_digest: userInfo.user.password_digest
-            }))
+    componentDidUpdate(){
+        console.log("hi1")
+        fetch(`http://localhost:3000/api/v1/users`)
+        .then(resp => resp.json())
+        .then(users => {
+            this.setState({
+                user: users.users.data.find(user => user.attributes.username === this.props.match.params.username),
+                username: this.props.currentUser.user.data.attributes.username,
+                phone_number: this.props.currentUser.user.data.attributes.phone_number
+            })
+        })
     }
 
     handleChange = (event) => {
         this.setState({
           [event.target.name]: event.target.value
         })
-      }
+    }
     
     handleSubmit = (e) => {
         e.preventDefault()
-        fetch(`http://localhost:3000/api/v1/users/${this.props.currentUser.id}`, {
+        fetch(`http://localhost:3000/api/v1/users/${this.props.currentUser.user.data.attributes.id}`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json"
         },
         body: JSON.stringify({
-            fname: this.state.fname,
-            lname: this.state.lname,
-            phonenumber: this.state.phonenumber,
             username: this.state.username,
-            passpassword_digest: this.state.password_digest
+            phone_number: this.state.phone_number
         })
         })
         .then(res => res.json())
         .then(resp => this.props.setUser(resp))
+        .then(this.setState({
+            edited: true
+        }))
     }
 
     handleDelete = () => {
-        fetch(`http://localhost:3000/api/v1/users/${this.props.currentUser.id}`, {
+        fetch(`http://localhost:3000/api/v1/users/${this.props.currentUser.user.data.attributes.id}`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
@@ -68,43 +75,60 @@ export default class CardsContainer extends React.Component{
         .then(this.setState({deleted: true}))
     }
 
-    cardClicked = () => {
-        this.setState({
-            clicked: true
-        })
-    }
-
     render(){
-        if(this.state.deleted){
-            this.setState({deleted: false})
-            return <LogOut logout={this.props.logout} />
+        console.log(this.props, this.state)
+        if(this.state.deleted)return <LogOut logout={this.props.logout} />
+        if(this.state.edited){
+            this.setState({edited: false})
+            return <Redirect to={`/profile/@${this.state.username}`} />
         }
+        if(this.state.user === undefined) return <h1 className="team_name">Profile doesn't exist!</h1>
+        // console.log(this.state.user.attributes)
         return (
             <Fragment>
-            {!this.state.clicked ?
+                {this.state.user.attributes !== undefined ?
                 <Fragment>
-                <div className="my_cards">
-                    <h1>Edit your profile:</h1>
-                    <form className="form1" onSubmit={this.handleSubmit}>
-                        <p>First Name:</p>
-                        <input className="un" type="text" align="center" name="fname" value={this.state.fname} onChange={this.handleChange} placeholder="First Name" />
-                        <p>Last Name:</p>
-                        <input className="un" type="text" align="center" name="lname" value={this.state.lname} onChange={this.handleChange} placeholder="Last Name" />
-                        <p>Phone Number:</p>
-                        <input className="un" type="text" align="center" name="phonenumber" value={this.state.phonenumber} onChange={this.handleChange} placeholder="Phone Number" />
-                        <p>Username:</p>
-                        <input className="un" type="text" align="center" name="username" value={this.state.username} onChange={this.handleChange} placeholder="Username" />
-                        <input style={{marginBottom: "10px"}} className="submit" align="center" type="submit" value="Edit" />
-                    </form>
-                    <button style={{fontSize: "65px", margin: "10px"}} className="submit" onClick={this.handleDelete}>DE-Culturize(Delete your Profile)</button>
-                </div>
+                {this.state.user.attributes.username === this.props.currentUser.user.data.attributes.username ?
+                    <Fragment>
+                    <div className="login-main">
+                        <img src={this.props.currentUser.user.data.attributes.profile_pic} alt="" style={{borderRadius: "50px", marginTop: "50px"}}/>
+                        <h1 className="team_name">{this.props.currentUser.user.data.attributes.username}</h1>
+                        <h1>Edit your profile:</h1>
+                        <form className="form1" onSubmit={this.handleSubmit}>
+                            <p>Username:</p>
+                            <input className="un" type="text" align="center" name="username" value={this.state.username} onChange={this.handleChange} placeholder="Userame" />
+                            <p>Phone Number:</p>
+                            <input className="un" type="text" align="center" name="phone_number" value={this.state.phone_number} onChange={this.handleChange} placeholder="Phone Number" />
+                            <input style={{marginBottom: "10px"}} className="submit" align="center" type="submit" value="Edit" />
+                        </form>
+                        <button style={{fontSize: "65px", margin: "10px"}} className="submit" onClick={this.handleDelete}>Delete your Profile</button>
+                    </div>
+                    </Fragment>
+                    :
+                    <Fragment>
+                    <div className="login-main">
+                        <img src={this.state.user.attributes.profile_pic} alt="" style={{borderRadius: "50px", marginTop: "50px"}}/>
+                        <h1 className="team_name">{this.state.user.attributes.username}</h1>
+                    </div>
+                    </Fragment>
+                }
                 </Fragment>
                 :
-                <Redirect to="/event" />
-            }
+                <div className="loading">
+                    <div className="lds-spinner"><div></div><div></div><div></div>
+                    <div></div><div></div><div></div><div></div><div></div>
+                    <div></div><div></div><div></div><div></div></div>
+                </div>
+                }
             </Fragment>
         );
     }
 }
 
-// chooseEvent={this.props.chooseEvent} cardClicked={this.props.cardClicked}
+function msp(state){
+    return {
+      currentUser: state.userReducer.currentUser
+    }
+}
+
+export default withRouter(connect(msp, { setUser })(Profile))

@@ -1,42 +1,32 @@
-import React from "react";
+import React, { Fragment } from "react";
 import {
   BrowserRouter as Router,
   Route,
   Redirect
 } from "react-router-dom";
+import { connect } from 'react-redux'
+import { setUser } from './redux/actions/user_actions'
+
+
 import NavBar from './NavBar'
 import Home from './Home'
 import LogIn from './LogIn'
 import SignUp from './SignUp'
 import LogOut from './LogOut'
 import Profile from './Profile'
+import Dashboard from './Dashboard'
+import TeamSignUp from './TeamSignUp'
+import TeamSearch from './TeamSearch'
+import GroupsContainer from "./GroupsContainer";
 import '../src/App.css'
 
 
-export default class App extends React.Component {
+class App extends React.Component {
   state = {
-    currentUser: null,
-
-    loaded: false,
-
-    showEvent: {},
-
-    allNearestEvents: [],
-    allChoosenAreaEvents: [],
-    allFreeEvents: [],
-    allRandEvents: [],
-    showEvents: [],
-
-    myEvents: [],
-    myLat: 0,
-    myLong: 0
+    loaded:false
   }
-
   componentDidMount(){
     const token = localStorage.token
-    this.setState({
-      loaded: true
-    })
     if(token){
       fetch("http://localhost:3000/api/v1/auto_login", {
         headers: {
@@ -48,93 +38,83 @@ export default class App extends React.Component {
         if (response.errors){
           alert(response.errors)
         } else {
-          this.setState({
-            currentUser: response
-          })
+          this.props.setUser(response)
+          localStorage.token = response.token
         }
       })
     }
+    setTimeout(() => {
+      this.setState({
+        loaded: true
+      })
+    }, 200);
   }
-
-  setUser = (response) => {
-    this.setState({
-      currentUser: response.user
-    }, () => {
-      localStorage.token = response.token
-    })
-  }
-
-  logout = () => {
-    this.setState({
-      currentUser: null
-    }, () => {
-      localStorage.removeItem("token")
-    })
-  }
-
-  // render(){
-  //   return (
-  //     <div>
-  //       {
-  //         this.state.loaded ?
-  //           <NavBar 
-  //             currentUser={this.state.currentUser} 
-  //             setUser={this.setUser} 
-  //             logout={this.logout} 
-  //             chosenEvent={this.state.showEvent} 
-  //             chooseEvent={this.chooseEvent} 
-  //             setAllNearesEvents={this.setAllNearesEvents}
-  //             setAllChoosenEvents={this.setAllChoosenEvents}
-  //             setAllFreeEvents={this.setAllFreeEvents}
-  //             setAllRandEvents={this.setAllRandEvents}
-  //             setMyCoords={this.setMyCoords}
-  //             showEvents={this.state.showEvents}
-  //             setContainerId={this.setContainerId}
-  //             setMyEvents={this.setMyEvents}
-  //             removeEvent={this.removeEvent}
-  //             addEvent={this.addEvent}
-  //             myEvents={this.state.myEvents}
-  //             myLat={this.state.myLat}
-  //             myLong={this.state.myLong}
-  //           />
-  //         :
-  //           <h1 style={{textAlign: "center"}}>Loading...</h1>
-  //       }
-  //     </div>
-  //   );
-  // }
-
 
   render() {
+    console.log(this.state)
     return (
-      <Router>
-        <div>
-          <NavBar currentUser={this.state.currentUser} />
-          <Route exact path="/">
-              <Home />
-          </Route>
-          <Route path="/logout">
-              <LogOut logout={this.logout}/>
-          </Route>
-          <Route path="/login">
-              <LogIn setUser={this.setUser} currentUser={this.state.currentUser} />
-          </Route>
-          <Route path="/signup">
-              <SignUp setUser={this.setUser} currentUser={this.state.currentUser} />
-          </Route>
-          <Route path="/profile">
-              {this.currentUser !== null ?
-                  <Profile 
-                      currentUser={this.state.currentUser} 
-                      setUser={this.setUser} 
-                      logout={this.logout}
-                  />
-                  :
-                  <Redirect to="/" />
+      <Fragment>
+        {this.state.loaded?
+          <Router>
+            <div>
+              <NavBar />
+              <Route path="/logout">
+                  <LogOut />
+              </Route>
+              <Route path="/login">
+                  <LogIn />
+              </Route>
+              <Route path="/signup">
+                  <SignUp />
+              </Route>
+              <Route path="/dashboard">
+                  <Dashboard />
+              </Route>
+              <Route path="/groups">
+                  <GroupsContainer />
+              </Route>
+              <Route path="/create_team">
+                  <TeamSignUp />
+              </Route>
+              <Route path="/search_team">
+                  <TeamSearch />
+              </Route>
+              <Route exact path="/profile">
+                <Redirect to="/" />
+              </Route>
+              <Route exact path="/profile/@:username">
+                  {this.props.currentUser !== null ?
+                      <Profile 
+                      />
+                      :
+                      <Redirect to="/" />
+                    }
+              </Route>
+              <Route exact path="/">
+              {this.props.currentUser === null ?
+                      <Home />
+                      :
+                      <Redirect to="/dashboard" />
               }
-          </Route>
-        </div>
-      </Router>
+              </Route>
+            </div>
+          </Router>
+          :
+          <div className="loading">
+            <div className="lds-spinner"><div></div><div></div><div></div>
+            <div></div><div></div><div></div><div></div><div></div>
+            <div></div><div></div><div></div><div></div></div>
+          </div>
+        }
+      </Fragment>
     );
   }
 }
+
+function msp(state){
+  return {
+    currentUser: state.userReducer.currentUser
+  }
+}
+
+export default connect(msp, { setUser })(App)

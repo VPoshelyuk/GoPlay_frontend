@@ -1,7 +1,8 @@
 import React, {Fragment} from 'react';
-import {Link} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
+import { connect } from 'react-redux'
 
-export default function NavBar (props) {
+function NavBar (props) {
 
     const hideMenu = () => {
         const toggler = document.querySelector(".toggler")
@@ -10,7 +11,8 @@ export default function NavBar (props) {
 
     return (
         <header>
-            <Link to="/"><img className="logo" src="./images/nav_logo.png" alt="NavBar logo"/></Link>
+            <NavLink to="/"><img className="logo" src="http://localhost:3001/images/nav_logo.png" alt="NavBar logo"/></NavLink> 
+            {/* werd stuff with img path */}
             <div className="menu-wrap">
                 <input type="checkbox" className="toggler"/>
                 <div className="hamburger"><div></div></div>
@@ -18,11 +20,11 @@ export default function NavBar (props) {
                     <div>
                         <div>
                             <ul onClick={hideMenu}> 
-                                <li>
-                                <Link to="/">Home</Link>
-                                </li>
                                 {props.currentUser === null ?
                                 <Fragment>
+                                    <li>
+                                    <Link to="/">Home</Link>
+                                    </li>
                                     <li>
                                     <Link to="/login">Log In</Link>
                                     </li>
@@ -33,7 +35,13 @@ export default function NavBar (props) {
                                 :
                                 <Fragment>
                                     <li>
-                                    <Link to="/profile">{props.currentUser.username}</Link>
+                                    <Link to="/dashboard">Dashboard</Link>
+                                    </li>
+                                    <li>
+                                    <Link to="/groups">Groups</Link>
+                                    </li>
+                                    <li>
+                                    <Link to={`/profile/@${props.currentUser.user.data.attributes.username}`} >{props.currentUser.user.data.attributes.username}</Link>
                                     </li>
                                     <li>
                                     <Link to="/logout">Log Out</Link>
@@ -48,3 +56,12 @@ export default function NavBar (props) {
         </header>
     );
 }
+
+function msp(state){
+    return {
+      currentUser: state.userReducer.currentUser
+    }
+  }
+  
+  export default connect(msp)(NavBar)
+  
