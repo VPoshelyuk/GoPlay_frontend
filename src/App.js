@@ -5,7 +5,7 @@ import {
   Redirect
 } from "react-router-dom";
 import { connect } from 'react-redux'
-import { setUser } from './redux/actions/user_actions'
+import { setUser, setMyTeams } from './redux/actions/user_actions'
 
 
 import NavBar from './NavBar'
@@ -17,7 +17,9 @@ import Profile from './Profile'
 import Dashboard from './Dashboard'
 import TeamSignUp from './TeamSignUp'
 import TeamSearch from './TeamSearch'
-import GroupsContainer from "./GroupsContainer";
+import GroupsContainer from "./GroupsContainer"
+import GroupInfo from "./GroupInfo"
+import GroupSignUp from "./GroupSignUp"
 import '../src/App.css'
 
 
@@ -40,6 +42,19 @@ class App extends React.Component {
         } else {
           this.props.setUser(response)
           localStorage.token = response.token
+          fetch("http://localhost:3000/api/v1/my_teams", {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+                  "Accept": "application/json"
+              },
+              body: JSON.stringify({
+                  user_id: response.user.data.attributes.id
+              })
+          })
+          .then(res => res.json())
+          .then(teams => {this.props.setMyTeams(teams.teams.data)})
+          .catch(() => this.props.setMyTeams(undefined))
         }
       })
     }
@@ -51,7 +66,6 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.state)
     return (
       <Fragment>
         {this.state.loaded?
@@ -71,7 +85,16 @@ class App extends React.Component {
                   <Dashboard />
               </Route>
               <Route path="/groups">
-                  <GroupsContainer />
+                  <GroupsContainer add={0}/>
+              </Route>
+              <Route path="/add_group">
+                  <GroupsContainer add={1}/>
+              </Route>
+              <Route path="/group/:id">
+                  <GroupInfo/>
+              </Route>
+              <Route path="/create_group">
+                  <GroupSignUp/>
               </Route>
               <Route path="/create_team">
                   <TeamSignUp />
@@ -117,4 +140,4 @@ function msp(state){
   }
 }
 
-export default connect(msp, { setUser })(App)
+export default connect(msp, { setUser, setMyTeams })(App)

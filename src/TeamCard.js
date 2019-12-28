@@ -1,4 +1,4 @@
-import React, {Fragment} from "react";
+import React from "react";
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { setUser } from './redux/actions/user_actions'
@@ -63,7 +63,7 @@ class TeamSearch extends React.Component{
             <h1 className="team_name">{this.props.team.name}</h1>
             <p className="team_location">{this.props.team.location}</p>
             <p className="team_mem_num">{this.props.team.number_of_members}</p>
-            <img className="team_logo" src={this.props.team.logo_path} />
+            <img className="team_logo" src={this.props.team.logo_path} alt="team_logo" />
             <h2 className="team_desc">{this.props.team.description}</h2>
             <div className="team_scores">
                 <p className="team_score">{this.props.team.won_games}</p>

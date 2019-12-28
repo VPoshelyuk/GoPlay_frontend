@@ -1,4 +1,5 @@
 import React from "react";
+import MaskedInput from 'react-maskedinput'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { setUser } from './redux/actions/user_actions'
@@ -6,6 +7,7 @@ import { setUser } from './redux/actions/user_actions'
 class SignUp extends React.Component{
     state = {
         first_name: "",
+        profile_pic: null,
         last_name: "",
         username: "",
         location: "",
@@ -30,6 +32,21 @@ class SignUp extends React.Component{
         })
     }
 
+    handleDateChange = (event) => {
+        let value = event.target.value;       
+        event.target.value = value.replace(/^([\d]{2})([\d]{2})([\d]{4})$/,"$1/$2/$3");        
+        this.setState({
+          [event.target.name]: event.target.value
+        })
+    }
+    
+    addPic = (e) => {
+        // console.log(e.target.files)
+        this.setState({
+            profile_pic: e.target.files[0],
+        });
+    }
+    
     addActivities = (event) => {
         if(this.state.activity_ids.find(el => el === event.target.value)){
             this.setState({
@@ -41,17 +58,31 @@ class SignUp extends React.Component{
             })
         }
     }
+
     
     handleSubmit = (e) => {
         e.preventDefault()
+        const fD = new FormData()
+        fD.append("first_name", this.state.first_name)
+        fD.append("last_name", this.state.last_name)
+        fD.append("username", this.state.username)
+        fD.append("profile_pic", this.state.profile_pic)
+        fD.append("location", this.state.location)
+        fD.append("email", this.state.email)
+        fD.append("phone_number", this.state.phone_number)
+        fD.append("birthday", this.state.birthday)
+        fD.append("gender", this.state.gender)
+        fD.append("bio", this.state.bio)
+        fD.append("password", this.state.password)
+        fD.append("admin", 0)
+        fD.append("won_games", 0)
+        fD.append("lost_games", 0)
+        fD.append("tie_games", 0)
+        console.log(this.state.profile_pic)
         if (this.state.password === this.state.passwordConfirmation){
             fetch("http://localhost:3000/api/v1/signup", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            },
-            body: JSON.stringify(this.state)
+            body: fD
             })
             .then(res => res.json())
             .then(response => {
@@ -104,7 +135,6 @@ class SignUp extends React.Component{
                             })
                         }, 1000)
                     )
-
                 }
                 })
         } else {
@@ -142,7 +172,7 @@ class SignUp extends React.Component{
                 <label className='label' htmlFor='username'>Username</label>
                 <input className='text-input' id='username' name='username' value={this.state.username} onChange={this.handleChange} required type='username' />
             </p>
-            <p className='field half'>
+            <p className='field required half'>
                 <label className='label' htmlFor='select'>Location</label>
                 <select className='select' value={this.state.location} onChange={this.handleChange} name="location" id='select'>
                 <option value=''></option>
@@ -155,19 +185,24 @@ class SignUp extends React.Component{
                 <label className='label' htmlFor='email'>E-mail</label>
                 <input className='text-input' id='email' name='email' value={this.state.email} onChange={this.handleChange} required type='email' />
             </p>
-            <p className='field half'>
+            <p className='field required half'>
                 <label className='label' htmlFor='phone_number'>Phone</label>
                 <input className='text-input' id='phone_number' name='phone_number' value={this.state.phone_number} onChange={this.handleChange} type='phone'/>
             </p>
             <p className='field half required'>
                 <label className='label' htmlFor='birthday'>Birthday</label>
-                <input className='text-input' id='birthday' name='birthday' value={this.state.birthday} onChange={this.handleChange} required type='text' />
+                <MaskedInput mask="11/11/1111" className='text-input' id='birthday' name='birthday' placeholder="mm/dd/yyyy" value={this.state.birthday} onChange={this.handleDateChange} required type='text' />
+                {/* <input className='text-input' id='birthday' name='birthday' placeholder="mm/dd/yyyy" value={this.state.birthday} onChange={this.handleDateChange} required type='text' /> */}
             </p>
             <p className='field half required'>
                 <label className='label' htmlFor='gender'>Gender</label>
                 <input className='text-input' id='gender' name='gender' value={this.state.gender} onChange={this.handleChange} required type='gender'/>
             </p>
-            <div className='field'>
+            <p className='field required'>
+                <label className='label' htmlFor='profile_pic'>Profile Picture</label>
+                <input className='text-input' id='profile_pic' name='profile_pic' onChange={this.addPic} accept="image/*" required type='file'/>
+            </p>
+            <div className='field required'>
                 <label className='label'>Choose your sports:</label>
                 <ul className='checkboxes'>
                 <li className='checkbox'>

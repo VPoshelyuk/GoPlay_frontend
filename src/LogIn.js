@@ -1,7 +1,7 @@
 import React from "react";
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { setUser } from './redux/actions/user_actions'
+import { setUser, setMyTeams, setMyGroups } from './redux/actions/user_actions'
 
 class LogIn extends React.Component{
   state = {
@@ -36,12 +36,26 @@ class LogIn extends React.Component{
             username: "",
             password: ""
           })
+          fetch("http://localhost:3000/api/v1/my_teams", {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+                  "Accept": "application/json"
+              },
+              body: JSON.stringify({
+                  user_id: response.user.data.attributes.id
+              })
+          })
+          .then(res => res.json())
+          .then(teams => {this.props.setMyTeams(teams.teams.data)})
+          .catch(() => this.props.setMyTeams(undefined))
         }
       })
     }
 
     render(){
-        if (this.props.currentUser !== null) {
+        if (this.props.myTeams !== null) {
+          console.log(this.props.myTeams)
             return <Redirect to='/dashboard' />;
         } 
         return (
@@ -69,8 +83,9 @@ class LogIn extends React.Component{
 
 function msp(state){
   return {
-    currentUser: state.userReducer.currentUser
+    currentUser: state.userReducer.currentUser,
+    myTeams: state.userReducer.myTeams
   }
 }
 
-export default connect(msp, { setUser })(LogIn)
+export default connect(msp, { setUser, setMyTeams, setMyGroups})(LogIn)

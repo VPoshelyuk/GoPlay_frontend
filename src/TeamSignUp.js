@@ -1,12 +1,12 @@
-import React, {Fragment} from "react";
+import React from "react";
 import { Redirect, NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { setUser } from './redux/actions/user_actions'
+import { setUser, setMyTeams } from './redux/actions/user_actions'
 
 class TeamSignUp extends React.Component{
     state = {
         name: "",
-        logo_path: "",
+        logo: "",
         description: "",
         created: false
     }
@@ -17,26 +17,29 @@ class TeamSignUp extends React.Component{
         })
     }
 
+    addPic = (e) => {
+        // console.log(e.target.files)
+        this.setState({
+            logo: e.target.files[0],
+        });
+    }
+
     handleSubmit = (e) => {
         e.preventDefault()
+        const fD = new FormData()
+        fD.append("name", this.state.name)
+        fD.append("location", this.props.currentUser.user.data.attributes.location)
+        fD.append("number_of_members", 1)
+        fD.append("logo", this.state.logo)
+        fD.append("description", this.state.description)
+        fD.append("admin_id", this.props.currentUser.user.data.id)
+        fD.append("activity_id", this.props.sportId)
+        fD.append("won_games", 0)
+        fD.append("lost_games", 0)
+        fD.append("tie_games", 0)
             fetch("http://localhost:3000/api/v1/teams", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            },
-            body: JSON.stringify({
-                name: this.state.name,
-                location: this.props.currentUser.user.data.attributes.location,
-                number_of_members: 1,
-                logo_path: this.state.logo_path,
-                description: this.state.description,
-                won_games: 0,
-                tie_games: 0,
-                lost_games: 0,
-                admin_id: this.props.currentUser.user.data.id,
-                activity_id: this.props.sportId
-            })
+            body: fD
             })
             .then(res => res.json())
             .then(response => {
@@ -57,6 +60,16 @@ class TeamSignUp extends React.Component{
                 })
                 .then(res => res.json())
                 .then(response => {
+                    fetch("http://localhost:3000/api/v1/my_teams", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Accept": "application/json"
+                        },
+                        body: JSON.stringify({
+                            user_id: this.props.currentUser.user.data.id
+                        })
+                    })
                     setTimeout(() => {
                         fetch("http://localhost:3000/api/v1/auto_login", {
                             headers: {
@@ -76,6 +89,9 @@ class TeamSignUp extends React.Component{
                                 description: "",
                                 created: true
                             })
+                            .then(res => res.json())
+                            .then(teams => {this.props.setMyTeams(teams.teams.data)})
+                            .catch(() => this.props.setMyTeams(undefined))
                             }
                         })
                     }, 1000)
@@ -99,7 +115,7 @@ class TeamSignUp extends React.Component{
             </p>
             <p className='field required half'>
                 <label className='label' htmlFor='logo_path'>Logo</label>
-                <input className='text-input' id='logo_path' name='logo_path' value={this.state.logo_path} onChange={this.handleChange} required type='logo_path' />
+                <input className='text-input' id='logo_path' name='logo_path' onChange={this.addPic} accept="image/*" required type='file' />
             </p>
             <p className='field'>
                 <label className='label' htmlFor='description'>Description</label>
@@ -122,4 +138,4 @@ function msp(state){
     }
 }
 
-export default connect(msp, { setUser })(TeamSignUp)
+export default connect(msp, { setUser, setMyTeams })(TeamSignUp)

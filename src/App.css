@@ -505,7 +505,7 @@ transition: width .5s ease-in-out */
 
 .main {
   background-color: #111111;
-  width: 85%;
+  width: 95%;
   height: 70vh;
   margin: 15vh auto;
   box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.651);
@@ -542,7 +542,7 @@ transition: width .5s ease-in-out */
 
 .dash_main {
   background-color: #111111;
-  width: 85%;
+  width: 95%;
   height: 85vh;
   margin: 0vh auto;
   box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.651);
@@ -781,7 +781,7 @@ transition: width .5s ease-in-out */
 
 .search-main {
   background-color: #111111;
-  width: 85%;
+  width: 95%;
   margin: 10vh auto 2vh;
   height: 85vh;
   justify-content: center;
@@ -800,7 +800,7 @@ transition: width .5s ease-in-out */
 
 .team_main {
   background-color: #111111;
-  width: 85%;
+  width: 95%;
   height: 85vh;
   margin: 0vh auto;
   box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.651);
