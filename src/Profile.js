@@ -25,18 +25,18 @@ class Profile extends React.Component{
         })
     }
 
-    componentDidUpdate(){
-        console.log("hi1")
-        fetch(`http://localhost:3000/api/v1/users`)
-        .then(resp => resp.json())
-        .then(users => {
-            this.setState({
-                user: users.users.data.find(user => user.attributes.username === this.props.match.params.username),
-                username: this.props.currentUser.user.data.attributes.username,
-                phone_number: this.props.currentUser.user.data.attributes.phone_number
-            })
-        })
-    }
+    // componentDidUpdate(){
+    //     console.log("hi1")
+    //     fetch(`http://localhost:3000/api/v1/users`)
+    //     .then(resp => resp.json())
+    //     .then(users => {
+    //         this.setState({
+    //             user: users.users.data.find(user => user.attributes.username === this.props.match.params.username),
+    //             username: this.props.currentUser.user.data.attributes.username,
+    //             phone_number: this.props.currentUser.user.data.attributes.phone_number
+    //         })
+    //     })
+    // }
 
     handleChange = (event) => {
         this.setState({
@@ -91,7 +91,7 @@ class Profile extends React.Component{
                 {this.state.user.attributes.username === this.props.currentUser.user.data.attributes.username ?
                     <Fragment>
                     <div className="login-main">
-                        <img src={this.props.currentUser.user.data.attributes.profile_pic} alt="" style={{borderRadius: "50px", marginTop: "50px"}}/>
+                        <img src={this.props.currentUser.user.data.attributes.profile_pic} alt="" style={{borderRadius: "50px", marginTop: "50px", maxHeight: "50vh", maxWidth: "50vw"}}/>
                         <h1 className="team_name">{this.props.currentUser.user.data.attributes.username}</h1>
                         <h1>Edit your profile:</h1>
                         <form className="form1" onSubmit={this.handleSubmit}>
@@ -107,7 +107,7 @@ class Profile extends React.Component{
                     :
                     <Fragment>
                     <div className="login-main">
-                        <img src={this.state.user.attributes.profile_pic} alt="" style={{borderRadius: "50px", marginTop: "50px"}}/>
+                        <img src={this.state.user.attributes.profile_pic} alt="" style={{borderRadius: "50px", marginTop: "50px", maxHeight: "50vh", maxWidth: "50vw"}}/>
                         <h1 className="team_name">{this.state.user.attributes.username}</h1>
                     </div>
                     </Fragment>

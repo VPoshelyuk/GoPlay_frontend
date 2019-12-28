@@ -1,6 +1,5 @@
-import React, {Fragment} from 'react';
-import InfoContainer from './InfoContainer';
-import { Redirect } from 'react-router-dom'
+import React from 'react';
+import InfoContainer from './InfoContainer'
 import { connect } from 'react-redux'
 
 class Home extends React.Component{

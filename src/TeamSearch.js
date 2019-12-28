@@ -1,5 +1,5 @@
 import React, {Fragment} from "react";
-import { Redirect, NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { setUser } from './redux/actions/user_actions'
 import TeamCard from './TeamCard';
