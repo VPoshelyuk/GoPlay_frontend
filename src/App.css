@@ -197,7 +197,7 @@ header {
   background-color: #111111;
   text-align: center;
   width: 85%;
-  margin: 80px auto 0;
+  margin: 20vh auto 0;
   box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.651);
 }
 /* 
@@ -243,6 +243,11 @@ html {
   font-weight: normal;
   font-size: 0.75em;
   vertical-align: top;
+}
+
+.form .text-input.datetime {
+  justify-content: center;
+  height: 53px;
 }
 
 .form .checkbox-input + label, .form .option-input + label, .form .text-input, .form .textarea, .form .select, .customSelect {
@@ -536,6 +541,7 @@ transition: width .5s ease-in-out */
 
 .login_logo {
   height: 15vh;
+  max-width: 100%;
   background-color: rgba(247, 17, 17, 0.5);
 }
 
@@ -634,6 +640,9 @@ transition: width .5s ease-in-out */
   }
   .video_element {
     display: none;
+  }
+  .login-main {
+    margin: 18vh auto 0;
   }
 }
 
@@ -810,3 +819,37 @@ transition: width .5s ease-in-out */
   /* justify-content: center; */
   text-align: center;
 }
+
+/* radio */
+input[type=radio] {
+  position: absolute;
+  visibility: hidden;
+  display: none;
+}
+
+label {
+  color: #ffffff;
+  display: inline-block;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 5px 0px;
+  width: 200px;
+}
+
+input[type=radio]:checked + label {
+  color: #474449;
+  background: #E8474C;
+}
+
+label + input[type=radio] + label {
+  border-left: solid 3px #E8474C;
+}
+
+.radio-group {
+  border: solid 3px #E8474C;
+  display: inline-block;
+  margin: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+/* radio */

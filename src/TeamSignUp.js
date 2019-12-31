@@ -60,16 +60,6 @@ class TeamSignUp extends React.Component{
                 })
                 .then(res => res.json())
                 .then(response => {
-                    fetch("http://localhost:3000/api/v1/my_teams", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "Accept": "application/json"
-                        },
-                        body: JSON.stringify({
-                            user_id: this.props.currentUser.user.data.id
-                        })
-                    })
                     setTimeout(() => {
                         fetch("http://localhost:3000/api/v1/auto_login", {
                             headers: {
@@ -89,9 +79,6 @@ class TeamSignUp extends React.Component{
                                 description: "",
                                 created: true
                             })
-                            .then(res => res.json())
-                            .then(teams => {this.props.setMyTeams(teams.teams.data)})
-                            .catch(() => this.props.setMyTeams(undefined))
                             }
                         })
                     }, 1000)

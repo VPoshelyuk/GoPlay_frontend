@@ -2,7 +2,7 @@ import React from "react";
 import { Redirect, NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { setUser } from './redux/actions/user_actions'
-import ImageUploader from 'react-images-upload';
+// import ImageUploader from 'react-images-upload';
 
 class TeamSignUp extends React.Component{
     state = {
@@ -29,7 +29,6 @@ class TeamSignUp extends React.Component{
 
     handleSubmit = (e) => {
         e.preventDefault()
-        debugger
         const fD = new FormData()
         fD.append("name", this.state.name)
         fD.append("location", this.state.location)

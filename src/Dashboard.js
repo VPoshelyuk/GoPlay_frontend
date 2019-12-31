@@ -1,8 +1,10 @@
 import React, {Fragment} from "react";
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { changeSportId, setTeam } from './redux/actions/team_actions'
+import { changeSportId, setTeam, setGroup } from './redux/actions/team_actions'
+import { setMyTeams, setAvailableEvents, setMyEvents } from './redux/actions/user_actions'
 import GroupCard from './GroupCard';
+import EventCard from './EventCard';
 
 class Dashboard extends React.Component{
     state = {
@@ -35,29 +37,101 @@ class Dashboard extends React.Component{
     }
 
     componentDidMount(){
+        console.log(Date.now())
         console.log(this.props)
+        this.props.setGroup(undefined)
+        fetch("http://localhost:3000/api/v1/my_teams", {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+                  "Accept": "application/json"
+              },
+              body: JSON.stringify({
+                  user_id: this.props.currentUser.user.data.attributes.id
+              })
+          })
+          .then(res => res.json())
+        //   .catch(() => this.props.setMyTeams(undefined))
+          .then(teams => {
+              this.props.setMyTeams(teams.teams.data)
+              this.props.setTeam(this.props.myTeams? this.props.myTeams.find(team => team.attributes.activity_id === this.props.sportId):undefined)
+                console.log(this.props)
+                setTimeout(() => {
+                    if (this.props.myTeam !== undefined && this.props.myTeam !== null) {
+                        let group_ids = []
+                        group_ids += this.props.myTeam.attributes.groups.map(group => group.id)
+                        console.log(group_ids, "bitch")
+                        const fD = new FormData()
+                        fD.append("groups_id", group_ids)
+                        fD.append("user_id", this.props.currentUser.user.data.attributes.id)
+                        fetch("http://localhost:3000/api/v1/my_events", {
+                        method: "POST",
+                        body: fD
+                        })
+                        .then(res => res.json())
+                        .then(events => {
+                            this.props.setMyEvents(events.events.data)
+                            fetch("http://localhost:3000/api/v1/available_events", {
+                            method: "POST",
+                            body: fD
+                            })
+                            .then(res => res.json())
+                            .then(events => {
+                                this.props.setAvailableEvents(events.events.data)
+                                this.setState({
+                                    loaded: true
+                                })
+                            })
+                        })
+                    } else {
+                        this.setState({
+                            loaded: true
+                        })
+                    }
+                }, 1);
+          })
         this.props.changeSportId(this.props.currentUser.user.data.attributes.activities[0].id)
-        if (this.props.myTeam !== undefined && this.props.myTeam !== null) {
-            this.setState({
-                loaded: true
-            })
-        }
     }
 
     componentDidUpdate(prevProps){
-        if(this.props.myTeams !== undefined && this.props.sportId !== prevProps.sportId){
+        if(this.props.myTeams !== undefined && this.props.sportId !== prevProps.sportId && prevProps.sportId !== 0){
             this.setState({
                 loaded: false
             })
-            this.props.setTeam(this.props.myTeams.find(team => team.attributes.activity_id === this.props.sportId))
+            this.props.setTeam(this.props.myTeams? this.props.myTeams.find(team => team.attributes.activity_id === this.props.sportId):undefined)
             console.log(this.props)
             setTimeout(() => {
                 if (this.props.myTeam !== undefined && this.props.myTeam !== null) {
+                    let group_ids = []
+                    group_ids += this.props.myTeam.attributes.groups.map(group => group.id)
+                    const fD = new FormData()
+                    fD.append("groups_id", group_ids)
+                    fD.append("user_id", this.props.currentUser.user.data.attributes.id)
+                    fetch("http://localhost:3000/api/v1/my_events", {
+                        method: "POST",
+                        body: fD
+                    })
+                    .then(res => res.json())
+                    .then(events => {
+                        this.props.setMyEvents(events.events.data)
+                        fetch("http://localhost:3000/api/v1/available_events", {
+                        method: "POST",
+                        body: fD
+                        })
+                        .then(res => res.json())
+                        .then(events => {
+                            this.props.setAvailableEvents(events.events.data)
+                            this.setState({
+                                loaded: true
+                            })
+                        })
+                    })
+                } else {
                     this.setState({
                         loaded: true
                     })
                 }
-            }, 10);
+            }, 1);
         }
     }
 
@@ -92,9 +166,9 @@ class Dashboard extends React.Component{
                 <form onChange={this.handleChange} className='form'>
 
                 <p className='field' style={{right: "0" ,marginTop: "-20px", marginBottom: "10px", width: "100%"}}>
-                    <select className='select' style={{textAlignLast: "center"}} defaultValue={this.props.currentUser.user.data.attributes.activities[0].id} name="location" id='select'>
+                    <select className='select' style={{textAlignLast: "center"}} defaultValue={this.props.currentUser.user.data.attributes.activities.sort((a, b) => a.id - b.id)[0].id} name="location" id='select'>
                     <option value='' disabled>Choose Sport:</option>
-                    {this.props.currentUser.user.data.attributes.activities.map(sport => <option key={sport.id} value={sport.id}>{sport.name}</option>)}
+                    {this.props.currentUser.user.data.attributes.activities.sort((a, b) => a.id - b.id).map(sport => <option key={sport.id} value={sport.id}>{sport.name}</option>)}
                     </select>
                 </p> 
                 </form>
@@ -122,6 +196,10 @@ class Dashboard extends React.Component{
                                 :
                                 null
                                 }
+                                {this.props.currentUser.user.data.attributes.events.map(event => <EventCard key={event.id} event={event} status_check={1} />)}
+                                <h1>Your events sucker:</h1>
+                                {this.props.availableEvents.map(event => <EventCard key={event.attributes.id} event={event.attributes} />)}
+                                <h1>Your groups sucker:</h1>
                                 {this.props.myTeam.attributes.groups.map(group => <GroupCard key={group.id} group={group} add={0} />)}
                             </div>
                             :
@@ -151,9 +229,12 @@ function msp(state){
     return {
         currentUser: state.userReducer.currentUser,
         sportId: state.teamReducer.currentSportId,
-        myTeam: state.teamReducer.myTeam,
+        availableEvents: state.userReducer.availableEvents,
+        myEvents: state.userReducer.myEvents,
+        myTeam: state.teamReducer.currentTeam,
+        // myGroups: state.teamReducer.currentGroups,
         myTeams: state.userReducer.myTeams
     }
 }
 
-export default connect(msp, { changeSportId, setTeam })(Dashboard)
+export default connect(msp, { changeSportId, setTeam, setMyTeams, setGroup, setAvailableEvents, setMyEvents })(Dashboard)

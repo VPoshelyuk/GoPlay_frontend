@@ -1,8 +1,10 @@
 import React from "react";
-import MaskedInput from 'react-maskedinput'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { setUser } from './redux/actions/user_actions'
+import MaskedInput from 'react-maskedinput'
+import 'react-phone-input-2/lib/bootstrap.css'
+import PhoneInput from 'react-phone-input-2'
 
 class SignUp extends React.Component{
     state = {
@@ -69,7 +71,7 @@ class SignUp extends React.Component{
         fD.append("profile_pic", this.state.profile_pic)
         fD.append("location", this.state.location)
         fD.append("email", this.state.email)
-        fD.append("phone_number", this.state.phone_number)
+        fD.append("phone_number", this.state.phone_number.match(/\d+/g).join(""))
         fD.append("birthday", this.state.birthday)
         fD.append("gender", this.state.gender)
         fD.append("bio", this.state.bio)
@@ -185,10 +187,16 @@ class SignUp extends React.Component{
                 <label className='label' htmlFor='email'>E-mail</label>
                 <input className='text-input' id='email' name='email' value={this.state.email} onChange={this.handleChange} required type='email' />
             </p>
-            <p className='field required half'>
+            <div className='field required half'>
                 <label className='label' htmlFor='phone_number'>Phone</label>
-                <input className='text-input' id='phone_number' name='phone_number' value={this.state.phone_number} onChange={this.handleChange} type='phone'/>
-            </p>
+                <PhoneInput
+                    country={'us'}
+                    disableDropdown={true}
+                    value={this.state.phone_number}
+                    onChange={phone_number => this.setState({ phone_number })}
+                />
+                {/* <input className='text-input' id='phone_number' name='phone_number' value={this.state.phone_number} onChange={this.handleChange} type='phone'/> */}
+            </div>
             <p className='field half required'>
                 <label className='label' htmlFor='birthday'>Birthday</label>
                 <MaskedInput mask="11/11/1111" className='text-input' id='birthday' name='birthday' placeholder="mm/dd/yyyy" value={this.state.birthday} onChange={this.handleDateChange} required type='text' />
@@ -204,7 +212,7 @@ class SignUp extends React.Component{
             </p>
             <div className='field required'>
                 <label className='label'>Choose your sports:</label>
-                <ul className='checkboxes'>
+                <ul required className='checkboxes'>
                 <li className='checkbox'>
                     <input onChange={this.addActivities} className='checkbox-input' id='choice-1' name='choice' type='checkbox' value='1' />
                     <label className='checkbox-label' htmlFor='choice-1'>Soccer</label>

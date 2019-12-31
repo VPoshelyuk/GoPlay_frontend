@@ -1,6 +1,8 @@
 const defaultState = {
     currentUser: null,
     myTeams: null,
+    myEvents: null,
+    availableEvents: null,
     myAdminGroups: null,
     email: "",
     password: ""
@@ -14,6 +16,10 @@ const defaultState = {
         return {...prevState, myTeams: action.payload.teams}
       case "SET_GROUPS":
         return {...prevState, myAdminGroups: action.payload.groups}
+      case "SET_EVENTS":
+        return {...prevState, myEvents: action.payload.events}
+      case "SET_AVAILABLE_EVENTS":
+        return {...prevState, availableEvents: action.payload.av_events}
       case "ADD_TEAM":
         return {...prevState, myTeams: [...prevState.myTeams,action.payload.team]}
       case "ADD_GROUP":

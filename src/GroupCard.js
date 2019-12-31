@@ -52,7 +52,7 @@ class GroupCard extends React.Component{
             return <Redirect to={`/group/${this.props.group.id}`} />
         }
         return (
-        <div onClick={this.joinTeam} className="team_card">
+        <div onClick={this.props.add === 0 ? this.handleViewGroup : null} className="team_card">
             <h1 className="team_name">{this.props.group.name}</h1>
             <p className="team_location">{this.props.group.location}</p>
             <img className="team_logo" src={this.props.group.logo_path} alt="group_logo" />
@@ -73,7 +73,7 @@ class GroupCard extends React.Component{
 function msp(state){
     return {
         currentUser: state.userReducer.currentUser,
-        myTeam: state.teamReducer.myTeam,
+        myTeam: state.teamReducer.currentTeam,
         sportId: state.teamReducer.currentSportId
     }
 }

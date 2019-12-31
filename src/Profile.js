@@ -2,6 +2,7 @@ import React, {Fragment} from "react";
 import { Redirect, withRouter } from "react-router-dom"
 import { connect } from 'react-redux'
 import { setUser } from './redux/actions/user_actions'
+import TeamCard from './TeamCard'
 import LogOut from './LogOut'
 
 class Profile extends React.Component{
@@ -18,7 +19,7 @@ class Profile extends React.Component{
         .then(resp => resp.json())
         .then(users => {
             this.setState({
-                user: users.users.data.find(user => user.attributes.username === this.props.match.params.username),
+                user: users.users.data.find(user => user.attributes.username.toLowerCase() === this.props.match.params.username.toLowerCase()),
                 username: this.props.currentUser.user.data.attributes.username,
                 phone_number: this.props.currentUser.user.data.attributes.phone_number
             })
@@ -85,14 +86,19 @@ class Profile extends React.Component{
         if(this.state.user === undefined) return <h1 className="team_name">Profile doesn't exist!</h1>
         // console.log(this.state.user.attributes)
         return (
-            <Fragment>
+            <div className="login-main">
                 {this.state.user.attributes !== undefined ?
                 <Fragment>
+                    <img src={this.state.user.attributes.profile_pic} alt="" style={{borderRadius: "50px", marginTop: "50px", maxHeight: "50vh", maxWidth: "50vw"}}/>
+                    <h1 className="team_name">{this.state.user.attributes.username}</h1>
+                    <h1 className="team_name">{this.state.user.attributes.first_name} {this.state.user.attributes.last_name}</h1>
+                    <h1 className="team_name">{this.state.user.attributes.location}</h1>
+                    <h1 className="team_name">{this.state.user.attributes.bio}</h1>
+                    <h1 className="team_name">{this.state.user.attributes.bio}</h1>
+                    {this.state.user.attributes.teams.map(team => <TeamCard key={team.id} team={team} profile_acc={true}/>)}
+                    
                 {this.state.user.attributes.username === this.props.currentUser.user.data.attributes.username ?
                     <Fragment>
-                    <div className="login-main">
-                        <img src={this.props.currentUser.user.data.attributes.profile_pic} alt="" style={{borderRadius: "50px", marginTop: "50px", maxHeight: "50vh", maxWidth: "50vw"}}/>
-                        <h1 className="team_name">{this.props.currentUser.user.data.attributes.username}</h1>
                         <h1>Edit your profile:</h1>
                         <form className="form1" onSubmit={this.handleSubmit}>
                             <p>Username:</p>
@@ -102,15 +108,9 @@ class Profile extends React.Component{
                             <input style={{marginBottom: "10px"}} className="submit" align="center" type="submit" value="Edit" />
                         </form>
                         <button style={{fontSize: "65px", margin: "10px"}} className="submit" onClick={this.handleDelete}>Delete your Profile</button>
-                    </div>
                     </Fragment>
                     :
-                    <Fragment>
-                    <div className="login-main">
-                        <img src={this.state.user.attributes.profile_pic} alt="" style={{borderRadius: "50px", marginTop: "50px", maxHeight: "50vh", maxWidth: "50vw"}}/>
-                        <h1 className="team_name">{this.state.user.attributes.username}</h1>
-                    </div>
-                    </Fragment>
+                    null
                 }
                 </Fragment>
                 :
@@ -120,7 +120,7 @@ class Profile extends React.Component{
                     <div></div><div></div><div></div><div></div></div>
                 </div>
                 }
-            </Fragment>
+            </div>
         );
     }
 }

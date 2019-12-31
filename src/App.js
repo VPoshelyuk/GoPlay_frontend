@@ -20,6 +20,7 @@ import TeamSearch from './TeamSearch'
 import GroupsContainer from "./GroupsContainer"
 import GroupInfo from "./GroupInfo"
 import GroupSignUp from "./GroupSignUp"
+import EventForm from "./EventForm"
 import '../src/App.css'
 
 
@@ -42,19 +43,19 @@ class App extends React.Component {
         } else {
           this.props.setUser(response)
           localStorage.token = response.token
-          fetch("http://localhost:3000/api/v1/my_teams", {
-              method: "POST",
-              headers: {
-                  "Content-Type": "application/json",
-                  "Accept": "application/json"
-              },
-              body: JSON.stringify({
-                  user_id: response.user.data.attributes.id
-              })
-          })
-          .then(res => res.json())
-          .then(teams => {this.props.setMyTeams(teams.teams.data)})
-          .catch(() => this.props.setMyTeams(undefined))
+          // fetch("http://localhost:3000/api/v1/my_teams", {
+          //     method: "POST",
+          //     headers: {
+          //         "Content-Type": "application/json",
+          //         "Accept": "application/json"
+          //     },
+          //     body: JSON.stringify({
+          //         user_id: response.user.data.attributes.id
+          //     })
+          // })
+          // .then(res => res.json())
+          // .then(teams => {this.props.setMyTeams(teams.teams.data)})
+          // .catch(() => this.props.setMyTeams(undefined))
         }
       })
     }
@@ -62,7 +63,7 @@ class App extends React.Component {
       this.setState({
         loaded: true
       })
-    }, 200);
+    }, 1000);
   }
 
   render() {
@@ -95,6 +96,9 @@ class App extends React.Component {
               </Route>
               <Route path="/create_group">
                   <GroupSignUp/>
+              </Route>
+              <Route path="/create_event">
+                  <EventForm/>
               </Route>
               <Route path="/create_team">
                   <TeamSignUp />

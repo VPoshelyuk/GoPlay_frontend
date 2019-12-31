@@ -2,10 +2,18 @@ import React, {Fragment} from "react";
 import { Redirect, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { setGroup } from './redux/actions/team_actions'
+import EventCard from './EventCard';
 
 class GroupInfo extends React.Component{
     state = {
-        loaded: false
+        loaded: false,
+        creatingEvent: false
+    }
+
+    handleCreateEvent = () => {
+        this.setState({
+            creatingEvent: true
+        })
     }
 
     componentDidMount(){
@@ -22,6 +30,13 @@ class GroupInfo extends React.Component{
     }
 
     render(){
+        console.log(this.props.myGroup)
+        if(this.state.creatingEvent){
+            this.setState({
+                creatingEvent: false
+            })
+            return <Redirect to='/create_event' />
+        }
         return (
             <Fragment>
             {
@@ -33,10 +48,11 @@ class GroupInfo extends React.Component{
                     <h2 className="team_desc">{this.props.myGroup.description}</h2>
                     {
                         this.props.myGroup.admin_id === this.props.currentUser.user.data.attributes.id ?
-                        <button onClick={this.handleViewGroup} style={{marginTop: "50px"}} className='dash_button'>Create Event</button>
+                        <button onClick={this.handleCreateEvent} style={{marginTop: "50px"}} className='dash_button'>Create Event</button>
                         :
                         null
                     }
+                    {this.props.myGroup.events.map(event => <EventCard key={event.id} event={event} />)}
                 </div>
                 :
                 <div className="loading">
@@ -53,8 +69,8 @@ class GroupInfo extends React.Component{
 function msp(state){
     return {
         currentUser: state.userReducer.currentUser,
-        myTeam: state.teamReducer.myTeam,
-        myGroup: state.teamReducer.myGroup,
+        myTeam: state.teamReducer.currentTeam,
+        myGroup: state.teamReducer.currentGroup,
         sportId: state.teamReducer.currentSportId
     }
 }
