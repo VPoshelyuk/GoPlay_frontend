@@ -21,6 +21,7 @@ import GroupsContainer from "./GroupsContainer"
 import GroupInfo from "./GroupInfo"
 import GroupSignUp from "./GroupSignUp"
 import EventForm from "./EventForm"
+import InfoContainer from "./InfoContainer"
 import '../src/App.css'
 
 
@@ -119,7 +120,7 @@ class App extends React.Component {
               </Route>
               <Route exact path="/">
               {this.props.currentUser === null ?
-                      <Home />
+                      <InfoContainer />
                       :
                       <Redirect to="/dashboard" />
               }
@@ -127,11 +128,9 @@ class App extends React.Component {
             </div>
           </Router>
           :
-          <div className="loading">
-            <div className="lds-spinner"><div></div><div></div><div></div>
-            <div></div><div></div><div></div><div></div><div></div>
-            <div></div><div></div><div></div><div></div></div>
-          </div>
+          <div className="lds-spinner"><div></div><div></div><div></div>
+          <div></div><div></div><div></div><div></div><div></div>
+          <div></div><div></div><div></div><div></div></div>
         }
       </Fragment>
     );

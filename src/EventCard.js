@@ -111,14 +111,14 @@ class EventCard extends React.Component{
         // }
         // debugger
         return (
-        <div className="team_card">
-            <h1 className="team_name">{this.props.event.name}</h1>
-            <p className="team_location">{this.props.event.price === 0 ? "Free" : this.props.event.price}</p>
-            <img className="team_logo" src={this.props.event.pic_path} alt="event_pic" />
-            <h2 className="team_desc">{this.props.event.description}</h2>
-            <p className="team_location">{this.props.event.players_per_team}</p>
-            <p className="team_location">{this.props.event.max_number_of_teams}</p>
-            <p className="team_location">{this.props.event.pretty_time}</p>
+        <div className={this.props.dash_style? "dash_square_card" : "regular_card"}>
+            <h1 className="event_name">{this.props.event.name}</h1>
+            <p className="event_location">{this.props.event.price === 0 ? "Free" : this.props.event.price}</p>
+            <img className="event_logo" src={this.props.event.pic_path} alt="event_pic" />
+            <h2 className="event_desc">{this.props.event.description}</h2>
+            <p className="event_location">Players per team: {this.props.event.players_per_team}</p>
+            <p className="event_location">Number of teams: {this.props.event.max_number_of_teams}</p>
+            <p className="team_locatevent_locationion">{this.props.event.pretty_time}</p>
             {this.props.myTeam !== undefined && this.props.myTeam !== null?
                 this.props.myTeam.attributes.events === undefined || this.props.myTeam.attributes.events.find(event => event.id === this.props.event.id) === undefined?
                     <button onClick={this.handleParticipateInEvent} style={{marginTop: "50px"}} className='dash_button'>Count my team in!</button>

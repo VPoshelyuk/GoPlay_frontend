@@ -55,11 +55,10 @@ class GroupInfo extends React.Component{
                     {this.props.myGroup.events.map(event => <EventCard key={event.id} event={event} />)}
                 </div>
                 :
-                <div className="loading">
-                        <div className="lds-spinner"><div></div><div></div><div></div>
-                        <div></div><div></div><div></div><div></div><div></div>
-                        <div></div><div></div><div></div><div></div></div>
-                </div>
+                <div className="lds-spinner"><div></div><div></div><div></div>
+                <div></div><div></div><div></div><div></div><div></div>
+                <div></div><div></div><div></div><div></div></div>
+
             }
             </Fragment>
         )

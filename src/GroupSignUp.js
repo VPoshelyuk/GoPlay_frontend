@@ -75,9 +75,9 @@ class TeamSignUp extends React.Component{
     render(){
         if(this.state.created) return <Redirect to="/dashboard" />
         return (
-        <div className="dash_main" style={{marginTop: "100px"}}>
+        <div className="signup-main">
             <form onSubmit={this.handleSubmit} className='form'>
-            <p className='field required' style={{marginTop: "130px"}}>
+            <p className='field required'>
                 <label className='label required' htmlFor='name'>Name</label>
                 <input className='text-input' id='name' name='name' value={this.state.name} onChange={this.handleChange} required type='text'/>
             </p>

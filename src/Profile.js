@@ -95,7 +95,7 @@ class Profile extends React.Component{
                     <h1 className="team_name">{this.state.user.attributes.location}</h1>
                     <h1 className="team_name">{this.state.user.attributes.bio}</h1>
                     <h1 className="team_name">{this.state.user.attributes.bio}</h1>
-                    {this.state.user.attributes.teams.map(team => <TeamCard key={team.id} team={team} profile_acc={true}/>)}
+                    {this.state.user.attributes.teams.map(team => <TeamCard key={team.id} team={team} profile_acc={true} dash_style={true}/>)}
                     
                 {this.state.user.attributes.username === this.props.currentUser.user.data.attributes.username ?
                     <Fragment>
