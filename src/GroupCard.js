@@ -1,5 +1,5 @@
 import React, {Fragment} from "react";
-import { Redirect } from 'react-router-dom'
+import { Redirect, NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { setGroup } from './redux/actions/team_actions'
 
@@ -52,20 +52,39 @@ class GroupCard extends React.Component{
             return <Redirect to={`/group/${this.props.group.id}`} />
         }
         return (
-        <div onClick={this.joinTeam} className="team_card">
-            <h1 className="team_name">{this.props.group.name}</h1>
-            <p className="team_location">{this.props.group.location}</p>
-            <img className="team_logo" src={this.props.group.logo_path} alt="group_logo" />
-            <h2 className="team_desc">{this.props.group.description}</h2>
-            {this.props.add === 1 ?
             <Fragment>
-                <button onClick={this.handleViewGroup} style={{marginTop: "50px"}} className='dash_button'>View Group</button>
-                <button onClick={this.handleAddGroup} style={{marginTop: "50px"}} className='dash_button'>Join Group</button>
+                {
+                    this.props.dash_style?
+                    <NavLink to={`/group/${this.props.group.id}`}>
+                        <figure style={{backgroundImage: `url(${this.props.group.logo_path})`}}>
+                            <figcaption>
+                                <h4> <span>{this.props.group.name}</span></h4>
+                                {/* <h4> <span>{this.props.group.location}</span></h4> */}
+                                <p>{this.props.group.location}</p>
+                            </figcaption>
+                        </figure>
+                    </NavLink>
+                    :
+                    <div onClick={this.props.add === 0 ? this.handleViewGroup : null} className="regular_card">
+                        <div className="group_logo_div">
+                            <img className="group_logo" src={this.props.group.logo_path} alt="group_logo" />
+                            <p className="group_location">{this.props.group.location}</p>
+                        </div>
+                        <div className="group_info_div">
+                            <h1 className="group_name">{this.props.group.name}</h1>
+                            <h2 className="group_desc">{this.props.group.description}</h2>
+                        </div>
+                        {this.props.add === 1 ?
+                        <Fragment>
+                            <button onClick={this.handleViewGroup} style={{marginTop: "20px", width: "70%", marginRight: "2.5%"}} className='dash_button'>View Group</button>
+                            <button onClick={this.handleAddGroup} style={{marginTop: "20px", width: "70%", marginRight: "2.5%"}} className='dash_button'>Join Group</button>
+                        </Fragment>
+                        :
+                        null
+                        }
+                    </div>
+                }
             </Fragment>
-            :
-            null
-            }
-        </div>
         );
     }
 }
@@ -73,7 +92,7 @@ class GroupCard extends React.Component{
 function msp(state){
     return {
         currentUser: state.userReducer.currentUser,
-        myTeam: state.teamReducer.myTeam,
+        myTeam: state.teamReducer.currentTeam,
         sportId: state.teamReducer.currentSportId
     }
 }

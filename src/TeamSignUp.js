@@ -60,16 +60,6 @@ class TeamSignUp extends React.Component{
                 })
                 .then(res => res.json())
                 .then(response => {
-                    fetch("http://localhost:3000/api/v1/my_teams", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "Accept": "application/json"
-                        },
-                        body: JSON.stringify({
-                            user_id: this.props.currentUser.user.data.id
-                        })
-                    })
                     setTimeout(() => {
                         fetch("http://localhost:3000/api/v1/auto_login", {
                             headers: {
@@ -89,9 +79,6 @@ class TeamSignUp extends React.Component{
                                 description: "",
                                 created: true
                             })
-                            .then(res => res.json())
-                            .then(teams => {this.props.setMyTeams(teams.teams.data)})
-                            .catch(() => this.props.setMyTeams(undefined))
                             }
                         })
                     }, 1000)
@@ -107,7 +94,7 @@ class TeamSignUp extends React.Component{
     render(){
         if(this.state.created) return <Redirect to="/dashboard" />
         return (
-        <div className="dash_main">
+        <div className="signup-main" style={{height: "80vh", alignContent: "center"}} >
             <form onSubmit={this.handleSubmit} className='form'>
             <p className='field required half'>
                 <label className='label required' htmlFor='name'>Name</label>
@@ -125,7 +112,7 @@ class TeamSignUp extends React.Component{
                 <input className='button' type='submit' value='Create a team' />
             </p>
             </form>
-            <NavLink to="/dashboard" className="main_text">Go back to dashboard...</NavLink>
+            <NavLink to="/dashboard" className="main_text" style={{textAlign: "center"}}>Go back to dashboard...</NavLink>
         </div>
         );
     }

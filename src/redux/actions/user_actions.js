@@ -6,6 +6,14 @@ export function setMyTeams(teams){
     return {type: "SET_TEAMS", payload: {teams: teams}}
 }
 
+export function setMyEvents(events){
+    return {type: "SET_EVENTS", payload: {events: events}}
+}
+
+export function setAvailableEvents(av_events){
+    return {type: "SET_AVAILABLE_EVENTS", payload: {av_events: av_events}}
+}
+
 export function setMyGroups(groups){
     return {type: "SET_GROUPS", payload: {groups: groups}}
 }

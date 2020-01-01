@@ -36,25 +36,12 @@ class LogIn extends React.Component{
             username: "",
             password: ""
           })
-          fetch("http://localhost:3000/api/v1/my_teams", {
-              method: "POST",
-              headers: {
-                  "Content-Type": "application/json",
-                  "Accept": "application/json"
-              },
-              body: JSON.stringify({
-                  user_id: response.user.data.attributes.id
-              })
-          })
-          .then(res => res.json())
-          .then(teams => {this.props.setMyTeams(teams.teams.data)})
-          .catch(() => this.props.setMyTeams(undefined))
         }
       })
     }
 
     render(){
-        if (this.props.myTeams !== null) {
+        if (this.props.currentUser !== null) {
           console.log(this.props.myTeams)
             return <Redirect to='/dashboard' />;
         } 

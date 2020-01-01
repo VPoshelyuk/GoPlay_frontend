@@ -22,7 +22,9 @@ body {
   font-family: "Roboto", sans-serif;
   margin-top: 60px;
   background-color: rgb(156, 152, 151);
+  background-image: url("https://georgiadogs.com/images/2019/9/23/19FB_Sanford_in_Red_190921_CLS_FB_ND_048.jpg");
   line-height: 1.4;
+  overflow: hidden;
 }
 
 /* MENU STYLES */
@@ -33,7 +35,7 @@ header {
  /* background-color: rgb(38, 50, 56); */
  position: fixed;
  top: 0;
- z-index: 1;
+ z-index: 100;
 }
 
 .logo {
@@ -46,14 +48,14 @@ header {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1;
+  z-index: 50;
 }
 
 .menu-wrap .toggler {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 2;
+  z-index: 100;
   cursor: pointer;
   width: 60px;
   height: 60px;
@@ -91,7 +93,7 @@ header {
 .menu-wrap .hamburger > div::after {
   content: "";
   position: absolute;
-  z-index: 1;
+  z-index: 100;
   top: -10px;
   width: 100%;
   height: 2px;
@@ -189,15 +191,18 @@ header {
 .signup-main {
   background-color: #111111;
   width: 85%;
+  height: 85vh;
   margin: 10vh auto 2vh;
   box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.651);
+  overflow-y: scroll;
 }
 
 .login-main {
   background-color: #111111;
   text-align: center;
   width: 85%;
-  margin: 80px auto 0;
+  margin: 20vh auto 0;
+  overflow: scroll;
   box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.651);
 }
 /* 
@@ -243,6 +248,11 @@ html {
   font-weight: normal;
   font-size: 0.75em;
   vertical-align: top;
+}
+
+.form .text-input.datetime {
+  justify-content: center;
+  height: 53px;
 }
 
 .form .checkbox-input + label, .form .option-input + label, .form .text-input, .form .textarea, .form .select, .customSelect {
@@ -486,6 +496,9 @@ html {
 /* width: 80px;
 transition: width .5s ease-in-out */
 
+body {
+  color: turquoise;
+}
 
 .video_element {
   /* margin: auto; */
@@ -536,6 +549,7 @@ transition: width .5s ease-in-out */
 
 .login_logo {
   height: 15vh;
+  max-width: 100%;
   background-color: rgba(247, 17, 17, 0.5);
 }
 
@@ -543,14 +557,15 @@ transition: width .5s ease-in-out */
 .dash_main {
   background-color: #111111;
   width: 95%;
-  height: 85vh;
+  height: 80vh;
   margin: 0vh auto;
   box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.651);
   overflow-y: scroll;
   display: flex;
   flex-flow: column;
-  justify-content: center;
+  /* justify-content: top; */
   text-align: center;
+  position: relative;
 }
 
 .dash_button {
@@ -572,14 +587,16 @@ transition: width .5s ease-in-out */
   font-weight: bold;
   height: 50px;
   width: 85%;
-  margin-left: auto;
-  margin-right: auto;
+  margin: auto;
   font-weight: bold;
-  padding-left: 2em;
-  padding-right: 2em;
-  margin-bottom: 10px;
+  position: relative;
+  /* padding-left: 2em;
+  padding-right: 2em; */
+  /* margin-bottom: 10px; */
   text-align: center;
-  /* align-content: center; */
+  
+  align-content: center;
+  
 }
 
 .dash_button:hover{
@@ -593,10 +610,6 @@ transition: width .5s ease-in-out */
   left: 1px;
 }
 
-/* body {
-  background-color: #111111af;
-  font-family: "Titillium Web", sans-serif;
-} */
 @media screen and (min-width: 40em) {
   body {
     font-size: 1.25em;
@@ -635,6 +648,9 @@ transition: width .5s ease-in-out */
   .video_element {
     display: none;
   }
+  .login-main {
+    margin: 18vh auto 0;
+  }
 }
 
 
@@ -658,6 +674,9 @@ transition: width .5s ease-in-out */
   position: relative;
   width: 80px;
   height: 80px;
+  position: absolute;
+  left: 50%;
+  margin-left: -50px;
 }
 .lds-spinner div {
   transform-origin: 40px 40px;
@@ -741,31 +760,113 @@ transition: width .5s ease-in-out */
 } */
 
 .team_name {
+  /* border: white 1px solid; */
   font-family: 'Righteous', cursive;
   font-size: 100px;
   color: #E8474C;
   text-align: center;
+  margin: auto;
+  margin-top: 3vh;
+  max-width: 50vw;
 }
 
 .team_logo {
   max-width: 256px;
-  max-height: 256px;
+  /* max-height: 256px; */
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 .activity_logo {
-  width: 256px;
+  width: 64px;
   background-color: #E8474C;
   border-radius: 30px;
+  /* position: absolute; */
+  opacity: 0.9;
+  z-index: 1;
 }
 
-.team_desc {
-  font-family: 'Righteous', cursive;
-  color: rgb(255, 255, 255);
+.logos_div {
+  width: 256px;
+  height: 256px;
+  border: turquoise 2px solid;
+  position: relative;
+  left: 2vw;
+  top: 3vh;
+  /* overflow: visible; */
+}
+
+.location_div {
+  width: 320px;
+  height: 256px;
+  text-align: center;
+  border: turquoise 2px solid;
+  position: relative;
+  right: 1vw;
+  top: 3vh;
 }
 
 .team_location {
   font-family: 'Righteous', cursive;
   color: rgb(255, 255, 255);
-  font-size: 70px;
+  font-size: 60px;
+  margin: auto;
+  right: 0;
+  text-align: center;
+  /* position: relative; */
+  /* margin-top: 8vh; */
+  /* margin-right: 2vw; */
+  max-width: 20vw;
+  /* border: red 3px solid; */
+}
+
+.top_dash {
+  position: relative;
+  /* width: 70%; */
+  /* margin-top: calc(256px + 3vh); */
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  border: hotpink 3px solid;
+  padding-bottom: 3vh;
+}
+
+.desc_info {
+  position: relative;
+  /* width: 70%; */
+  /* margin-top: calc(256px + 3vh); */
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  border: blue 3px solid;
+}
+.desc_groups {
+  position: relative;
+  width: 80%;
+  /* margin-top: calc(256px + 3vh); */
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  border: yellow 5px solid;
+}
+
+.team_desc {
+  font-family: 'Righteous', cursive;
+  color: rgb(255, 255, 255);
+  border: hotpink 3px solid;
+  width: 65vw;
+  margin: 0 auto;
+}
+
+h3 {
+  color: red;
+}
+
+.team_info {
+  width: 30vw;
+  height: 256px;
+  align-items: center;
+  border: red 3px solid;
 }
 
 .team_card {
@@ -791,18 +892,11 @@ transition: width .5s ease-in-out */
   overflow-y: scroll;
 }
 
-.logos_div {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
 .team_main {
   background-color: #111111;
   width: 95%;
   height: 85vh;
-  margin: 0vh auto;
+  margin: calc(60px + 2%) auto;
   box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.651);
   overflow-y: scroll;
   display: flex;
@@ -810,3 +904,202 @@ transition: width .5s ease-in-out */
   /* justify-content: center; */
   text-align: center;
 }
+
+/* radio */
+input[type=radio] {
+  position: absolute;
+  visibility: hidden;
+  display: none;
+}
+
+label {
+  color: #ffffff;
+  display: inline-block;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 5px 0px;
+  width: 200px;
+}
+
+input[type=radio]:checked + label {
+  color: #474449;
+  background: #E8474C;
+}
+
+label + input[type=radio] + label {
+  border-left: solid 3px #E8474C;
+}
+
+.radio-group {
+  border: solid 3px #E8474C;
+  display: inline-block;
+  margin: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+/* radio */
+
+
+.dash_square_card {
+ color: violet;
+}
+
+.regular_card {
+  position: relative;
+  overflow-y: scroll;
+  /* overflow: visible; */
+  width: 90%;
+  height: 500px;
+  background-image: url("http://localhost:3001/images/box_bkgnd.jpg");
+  background-size: 100%;
+  margin: auto;
+  margin-bottom: 25px;
+  overflow: hidden;
+  display: flex;
+  flex-flow: row wrap;
+  /* border: #E8474C 4px solid; */
+  justify-content: space-between;
+}
+
+.group_logo_div {
+  width: 300px;
+  height: 300px;
+  overflow: hidden;
+  border-radius: 3px;
+  text-align: center;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  border: cornflowerblue 4px solid;
+}
+
+.group_logo {
+  min-height: 100%;
+  margin-left: calc(-100%/2);
+}
+
+.group_location {
+  position: absolute;
+  z-index: 2;
+  top: 10px;
+  width: 300px;
+  text-align: center;
+  font-family: 'Righteous', cursive;
+  color: #E8474C;
+}
+
+.group_name {
+  font-family: 'Righteous', cursive;
+  font-size: 90px;
+  color: #E8474C;
+  border: chocolate 3px solid;
+}
+
+.group_info_div {
+  width: 75%;
+  border-radius: 3px;
+  text-align: center;
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-start;
+  border: cornflowerblue 4px solid;
+}
+
+.group_desc {
+  margin-top: 15px;
+  font-family: 'Righteous', cursive;
+  color: rgb(255, 255, 255);
+}
+
+
+.small_cards {
+  /* overflow: hidden; */
+  display: flex;
+  flex-flow: row;
+  width: 95%;
+  margin: auto;
+  /* overflow-y: scroll; */
+  /* justify-content: center; */
+  border: slateblue 3px solid;
+}
+
+a {
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+figure {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 220px;
+  height: 220px;
+  padding: 20px 20px;
+  background-position: center center;
+  background: center;
+  /* background-size: 100%; */
+  /* border-radius: 10px; */
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow: hidden;
+}
+figure:before, figure:after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+figure:before {
+  content: '';
+  background-color: rgba(0, 0, 0, 0.1);
+  z-index: 0;
+}
+figure:after {
+  content: '';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s ease-in-out;
+  overflow: hidden;
+}
+figure:hover {
+  background-size: 270%;
+}
+figure:hover:after {
+  content: 'More Info';
+  background-color: rgba(214, 64, 64, 0.568);
+  color: white;
+  font-size: 52px;
+  z-index: 2;
+}
+figure:hover figcaption {
+  transform: translateX(-110%);
+}
+
+figure figcaption {
+  color: white;
+  transition: all 2s ease-in-out;
+  z-index: 1;
+}
+figure figcaption h4 {
+  margin: 0 0;
+  font-family: "Source Code Pro", sans-serif;
+  font-size: 24px;
+  line-height: 1.35;
+  text-shadow: 1px 1px rgba(0, 0, 0, 0.7);
+  align-self: flex-end;
+}
+figure figcaption p {
+  margin-top: 0;
+  bottom: 0;
+  line-height: 1.5;
+  font-family: 'Righteous', cursive;
+  text-align: start;
+  color: #E8474C;
+}
+
+
+
+

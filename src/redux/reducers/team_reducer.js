@@ -1,7 +1,7 @@
 const defaultState = {
   currentSportId: 0,
-  myTeam: null,
-  myGroup: null
+  currentTeam: null,
+  currentGroup: null
   }
   
   function teamReducer(prevState = defaultState, action){
@@ -9,9 +9,9 @@ const defaultState = {
       case "CHANGE_SPORT_ID":
         return {...prevState, currentSportId: action.payload.currentSportId}
       case "SET_TEAM":
-          return {...prevState, myTeam: action.payload.myTeam}
+          return {...prevState, currentTeam: action.payload.currentTeam}
       case "SET_GROUP":
-        return {...prevState, myGroup: action.payload.myGroup}
+        return {...prevState, currentGroup: action.payload.currentGroup}
       default:
         return prevState
     }

@@ -20,6 +20,8 @@ import TeamSearch from './TeamSearch'
 import GroupsContainer from "./GroupsContainer"
 import GroupInfo from "./GroupInfo"
 import GroupSignUp from "./GroupSignUp"
+import EventForm from "./EventForm"
+import InfoContainer from "./InfoContainer"
 import '../src/App.css'
 
 
@@ -42,19 +44,19 @@ class App extends React.Component {
         } else {
           this.props.setUser(response)
           localStorage.token = response.token
-          fetch("http://localhost:3000/api/v1/my_teams", {
-              method: "POST",
-              headers: {
-                  "Content-Type": "application/json",
-                  "Accept": "application/json"
-              },
-              body: JSON.stringify({
-                  user_id: response.user.data.attributes.id
-              })
-          })
-          .then(res => res.json())
-          .then(teams => {this.props.setMyTeams(teams.teams.data)})
-          .catch(() => this.props.setMyTeams(undefined))
+          // fetch("http://localhost:3000/api/v1/my_teams", {
+          //     method: "POST",
+          //     headers: {
+          //         "Content-Type": "application/json",
+          //         "Accept": "application/json"
+          //     },
+          //     body: JSON.stringify({
+          //         user_id: response.user.data.attributes.id
+          //     })
+          // })
+          // .then(res => res.json())
+          // .then(teams => {this.props.setMyTeams(teams.teams.data)})
+          // .catch(() => this.props.setMyTeams(undefined))
         }
       })
     }
@@ -62,7 +64,7 @@ class App extends React.Component {
       this.setState({
         loaded: true
       })
-    }, 200);
+    }, 1000);
   }
 
   render() {
@@ -96,6 +98,9 @@ class App extends React.Component {
               <Route path="/create_group">
                   <GroupSignUp/>
               </Route>
+              <Route path="/create_event">
+                  <EventForm/>
+              </Route>
               <Route path="/create_team">
                   <TeamSignUp />
               </Route>
@@ -115,7 +120,7 @@ class App extends React.Component {
               </Route>
               <Route exact path="/">
               {this.props.currentUser === null ?
-                      <Home />
+                      <InfoContainer />
                       :
                       <Redirect to="/dashboard" />
               }
@@ -123,11 +128,9 @@ class App extends React.Component {
             </div>
           </Router>
           :
-          <div className="loading">
-            <div className="lds-spinner"><div></div><div></div><div></div>
-            <div></div><div></div><div></div><div></div><div></div>
-            <div></div><div></div><div></div><div></div></div>
-          </div>
+          <div className="lds-spinner"><div></div><div></div><div></div>
+          <div></div><div></div><div></div><div></div><div></div>
+          <div></div><div></div><div></div><div></div></div>
         }
       </Fragment>
     );

@@ -3,9 +3,9 @@ export function changeSportId(newID){
 }
 
 export function setTeam(newTeam){
-    return {type: "SET_TEAM", payload: {myTeam: newTeam}}
+    return {type: "SET_TEAM", payload: {currentTeam: newTeam}}
 }
 
 export function setGroup(newGroup){
-    return {type: "SET_GROUP", payload: {myGroup: newGroup}}
+    return {type: "SET_GROUP", payload: {currentGroup: newGroup}}
 }

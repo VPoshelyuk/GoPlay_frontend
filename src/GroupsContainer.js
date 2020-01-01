@@ -17,8 +17,8 @@ class GroupsContainer extends React.Component{
             if(this.props.add === 0){
                 this.setState({groupsAvailable: groups.groups.data})
             }else{
-                console.log(this.props)
-                let filteredGroup = groups.groups.data.filter(group => group.attributes.activity.id === this.props.myTeam.attributes.activity_id)
+                console.log(this.props, groups.groups.data)
+                let filteredGroup = groups.groups.data.filter(group => group.attributes.activity.id === this.props.myTeam.attributes.activity_id && !this.props.myTeam.attributes.groups.find(currGroup => currGroup.id === group.attributes.id))
                 this.setState({groupsAvailable: filteredGroup})
             }
         })
@@ -80,7 +80,7 @@ class GroupsContainer extends React.Component{
 function msp(state){
     return {
         currentUser: state.userReducer.currentUser,
-        myTeam: state.teamReducer.myTeam,
+        myTeam: state.teamReducer.currentTeam,
         sportId: state.teamReducer.currentSportId
     }
 }
