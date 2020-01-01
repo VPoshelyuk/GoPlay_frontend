@@ -111,53 +111,119 @@ class EventCard extends React.Component{
         // }
         // debugger
         return (
-        <div className={this.props.dash_style? "dash_square_card" : "regular_card"}>
-            <h1 className="event_name">{this.props.event.name}</h1>
-            <p className="event_location">{this.props.event.price === 0 ? "Free" : this.props.event.price}</p>
-            <img className="event_logo" src={this.props.event.pic_path} alt="event_pic" />
-            <h2 className="event_desc">{this.props.event.description}</h2>
-            <p className="event_location">Players per team: {this.props.event.players_per_team}</p>
-            <p className="event_location">Number of teams: {this.props.event.max_number_of_teams}</p>
-            <p className="team_locatevent_locationion">{this.props.event.pretty_time}</p>
-            {this.props.myTeam !== undefined && this.props.myTeam !== null?
-                this.props.myTeam.attributes.events === undefined || this.props.myTeam.attributes.events.find(event => event.id === this.props.event.id) === undefined?
-                    <button onClick={this.handleParticipateInEvent} style={{marginTop: "50px"}} className='dash_button'>Count my team in!</button>
-                    :
-                    this.props.myTeam.attributes.events.find(event => event.id === this.props.event.id) && this.props.myTeam.attributes.admin.id === this.props.currentUser.user.data.attributes.id?
-                        <Fragment>
-                            <div onChange={this.setAttendance} name="radio" className="radio-group">
-                                <input type="radio" id="option-one" value="Going" name="selector" />
-                                <label htmlFor="option-one">I'm Going!</label>
-                                <input type="radio" id="option-two" value="Maybe" name="selector" />
-                                <label htmlFor="option-two">Maybe</label>
-                                <input type="radio" id="option-three" value="Nope" name="selector" />
-                                <label htmlFor="option-three">Nope</label>
-                            </div>
-                            <button onClick={this.handleUnparticipateInEvent} style={{marginTop: "50px"}} className='dash_button'>Sorry, my team can't make it</button>
-                        </Fragment>
-                        :
-                        <button onClick={this.handleChangeMyStatusOnEvent} style={{marginTop: "50px"}} className='dash_button'>I'll go/maybe/no</button>
+        <Fragment>
+            {
+                this.props.dash_style?
+                <div>
+                    <figure style={{backgroundImage: `url(${this.props.event.pic_path})`}}>
+                        <figcaption>
+                            <h4> <span>{this.props.event.name}</span></h4>
+                            <p>{this.props.event.price === 0 ? "Free" : this.props.event.price}</p>
+                        </figcaption>
+                    </figure>
+                </div>
                 :
-                this.state.added ?
-                    this.props.myTeam.attributes.admin.id === this.props.currentUser.user.data.attributes.id?
-                        <Fragment>
-                            <div onChange={this.setAttendance} name="radio" className="radio-group">
-                                <input type="radio" id="option-one" name="selector" />
-                                <label htmlFor="option-one">I'm Going!</label>
-                                <input type="radio" id="option-two" name="selector" />
-                                <label htmlFor="option-two">Maybe</label>
-                                <input type="radio" id="option-three" name="selector" />
-                                <label htmlFor="option-three">Nope</label>
-                            </div>
-                            <button onClick={this.handleUnparticipateInEvent} style={{marginTop: "50px"}} className='dash_button'>Sorry, my team can't make it</button>
-                        </Fragment>
-                        :
-                        <button onClick={this.handleChangeMyStatusOnEvent} style={{marginTop: "50px"}} className='dash_button'>I'll go/maybe/no</button>
-                    :
-                    null
+                <div className="regular_card">
+                    <div className="group_logo_div">
+                        <img className="group_logo" src={this.props.event.pic_path} alt="event_logo" />
+                        <p className="group_location" style={{fontSize: "40px"}}>{this.props.event.price === 0 ? "Free" : this.props.event.price}</p>
+                        <p className="event_location">Players per team: {this.props.event.players_per_team}</p>
+                        <p className="event_location">Number of teams: {this.props.event.max_number_of_teams}</p>
+                        <p className="team_locatevent_locationion">{this.props.event.pretty_time}</p>
+                    </div>
+                    <div className="group_info_div">
+                        <h1 className="group_name">{this.props.event.name}</h1>
+                        <h2 className="group_desc">{this.props.event.description}</h2>
+                        {this.props.myTeam !== undefined && this.props.myTeam !== null?
+                            this.props.myTeam.attributes.events === undefined || this.props.myTeam.attributes.events.find(event => event.id === this.props.event.id) === undefined?
+                                <button onClick={this.handleParticipateInEvent} style={{marginTop: "50px"}} className='dash_button'>Count my team in!</button>
+                                :
+                                this.props.myTeam.attributes.events.find(event => event.id === this.props.event.id) && this.props.myTeam.attributes.admin.id === this.props.currentUser.user.data.attributes.id?
+                                    <Fragment>
+                                        <div onChange={this.setAttendance} name="radio" className="radio-group">
+                                            <input type="radio" id="option-one" value="Going" name="selector" />
+                                            <label htmlFor="option-one">I'm Going!</label>
+                                            <input type="radio" id="option-two" value="Maybe" name="selector" />
+                                            <label htmlFor="option-two">Maybe</label>
+                                            <input type="radio" id="option-three" value="Nope" name="selector" />
+                                            <label htmlFor="option-three">Nope</label>
+                                        </div>
+                                        <button onClick={this.handleUnparticipateInEvent} style={{marginTop: "50px"}} className='dash_button'>Sorry, my team can't make it</button>
+                                    </Fragment>
+                                    :
+                                    <button onClick={this.handleChangeMyStatusOnEvent} style={{marginTop: "50px"}} className='dash_button'>I'll go/maybe/no</button>
+                            :
+                            this.state.added ?
+                                this.props.myTeam.attributes.admin.id === this.props.currentUser.user.data.attributes.id?
+                                    <Fragment>
+                                        <div onChange={this.setAttendance} name="radio" className="radio-group">
+                                            <input type="radio" id="option-one" name="selector" />
+                                            <label htmlFor="option-one">I'm Going!</label>
+                                            <input type="radio" id="option-two" name="selector" />
+                                            <label htmlFor="option-two">Maybe</label>
+                                            <input type="radio" id="option-three" name="selector" />
+                                            <label htmlFor="option-three">Nope</label>
+                                        </div>
+                                        <button onClick={this.handleUnparticipateInEvent} style={{marginTop: "50px"}} className='dash_button'>Sorry, my team can't make it</button>
+                                    </Fragment>
+                                    :
+                                    <button onClick={this.handleChangeMyStatusOnEvent} style={{marginTop: "50px"}} className='dash_button'>I'll go/maybe/no</button>
+                                :
+                                null
 
+                        }
+                    </div>
+
+                </div>
             }
-        </div>
+        </Fragment>
+        // <div className="regular_event_card">
+            // <h1 className="event_name">{this.props.event.name}</h1>
+            // <p className="event_location">{this.props.event.price === 0 ? "Free" : this.props.event.price}</p>
+            // <img className="team_logo" src={this.props.event.pic_path} alt="event_pic" />
+            // <h2 className="event_desc">{this.props.event.description}</h2>
+        //     <p className="event_location">Players per team: {this.props.event.players_per_team}</p>
+        //     <p className="event_location">Number of teams: {this.props.event.max_number_of_teams}</p>
+        //     <p className="team_locatevent_locationion">{this.props.event.pretty_time}</p>
+        //     {this.props.myTeam !== undefined && this.props.myTeam !== null?
+        //         this.props.myTeam.attributes.events === undefined || this.props.myTeam.attributes.events.find(event => event.id === this.props.event.id) === undefined?
+        //             <button onClick={this.handleParticipateInEvent} style={{marginTop: "50px"}} className='dash_button'>Count my team in!</button>
+        //             :
+        //             this.props.myTeam.attributes.events.find(event => event.id === this.props.event.id) && this.props.myTeam.attributes.admin.id === this.props.currentUser.user.data.attributes.id?
+        //                 <Fragment>
+        //                     <div onChange={this.setAttendance} name="radio" className="radio-group">
+        //                         <input type="radio" id="option-one" value="Going" name="selector" />
+        //                         <label htmlFor="option-one">I'm Going!</label>
+        //                         <input type="radio" id="option-two" value="Maybe" name="selector" />
+        //                         <label htmlFor="option-two">Maybe</label>
+        //                         <input type="radio" id="option-three" value="Nope" name="selector" />
+        //                         <label htmlFor="option-three">Nope</label>
+        //                     </div>
+        //                     <button onClick={this.handleUnparticipateInEvent} style={{marginTop: "50px"}} className='dash_button'>Sorry, my team can't make it</button>
+        //                 </Fragment>
+        //                 :
+        //                 <button onClick={this.handleChangeMyStatusOnEvent} style={{marginTop: "50px"}} className='dash_button'>I'll go/maybe/no</button>
+        //         :
+        //         this.state.added ?
+        //             this.props.myTeam.attributes.admin.id === this.props.currentUser.user.data.attributes.id?
+        //                 <Fragment>
+        //                     <div onChange={this.setAttendance} name="radio" className="radio-group">
+        //                         <input type="radio" id="option-one" name="selector" />
+        //                         <label htmlFor="option-one">I'm Going!</label>
+        //                         <input type="radio" id="option-two" name="selector" />
+        //                         <label htmlFor="option-two">Maybe</label>
+        //                         <input type="radio" id="option-three" name="selector" />
+        //                         <label htmlFor="option-three">Nope</label>
+        //                     </div>
+        //                     <button onClick={this.handleUnparticipateInEvent} style={{marginTop: "50px"}} className='dash_button'>Sorry, my team can't make it</button>
+        //                 </Fragment>
+        //                 :
+        //                 <button onClick={this.handleChangeMyStatusOnEvent} style={{marginTop: "50px"}} className='dash_button'>I'll go/maybe/no</button>
+        //             :
+        //             null
+
+        //     }
+        // </div>
         );
     }
 }

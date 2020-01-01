@@ -864,7 +864,7 @@ h3 {
 
 .team_info {
   width: 30vw;
-  height: 256px;
+  /* height: 256px; */
   align-items: center;
   border: red 3px solid;
 }
@@ -949,7 +949,7 @@ label + input[type=radio] + label {
   overflow-y: scroll;
   /* overflow: visible; */
   width: 90%;
-  height: 500px;
+  height: 450px;
   background-image: url("http://localhost:3001/images/box_bkgnd.jpg");
   background-size: 100%;
   margin: auto;
@@ -962,19 +962,22 @@ label + input[type=radio] + label {
 }
 
 .group_logo_div {
-  width: 300px;
-  height: 300px;
+  /* width: 300px; */
+  width: 25%;
+  /* max-height: 250px; */
   overflow: hidden;
   border-radius: 3px;
   text-align: center;
   display: flex;
   flex-flow: column;
-  justify-content: center;
+  justify-content: top;
   border: cornflowerblue 4px solid;
 }
 
 .group_logo {
-  min-height: 100%;
+  /* min-height: 100%; */
+  top: 0;
+  max-height: 250px;
   margin-left: calc(-100%/2);
 }
 
@@ -982,16 +985,18 @@ label + input[type=radio] + label {
   position: absolute;
   z-index: 2;
   top: 10px;
-  width: 300px;
+  width: 25%;
   text-align: center;
   font-family: 'Righteous', cursive;
   color: #E8474C;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
 .group_name {
   font-family: 'Righteous', cursive;
   font-size: 90px;
   color: #E8474C;
+  height: 250px;
   border: chocolate 3px solid;
 }
 
@@ -1006,9 +1011,11 @@ label + input[type=radio] + label {
 }
 
 .group_desc {
-  margin-top: 15px;
   font-family: 'Righteous', cursive;
   color: rgb(255, 255, 255);
+  height: 190px;
+  overflow-y: scroll;
+  border: aquamarine 3px solid;
 }
 
 
@@ -1100,6 +1107,55 @@ figure figcaption p {
   color: #E8474C;
 }
 
+.regular_event_card {
+  position: relative;
+  overflow-y: scroll;
+  /* overflow: visible; */
+  width: 90%;
+  height: 500px;
+  background-image: url("http://localhost:3001/images/box_bkgnd.jpg");
+  background-repeat: no-repeat;
+  background-size: auto;
+  margin: auto;
+  margin-bottom: 25px;
+  overflow: hidden;
+  display: flex;
+  flex-flow: column;
+  /* border: #E8474C 4px solid; */
+  justify-content: space-between;
+}
 
+/* avatars */
+.avatars {
+  display: inline-flex;
+  flex-direction: row;
+  padding-left:50px;
+}
 
+.avatar {
+  margin-left: -25px;
+  position: relative;
+  border:1px solid #000000;
+  border-radius: 50%;
+  overflow:hidden;
+  width:50px;
+  height:50px;
+}
 
+.avatar img {
+  width:50px;
+  height:50px;
+}
+
+.avatar h1 {
+  width:50px;
+  height:50px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: 'Righteous', cursive;
+  color: black;
+}
+
+/* end avatars */

@@ -59,7 +59,7 @@ class TeamSearch extends React.Component{
     render(){
         if(this.state.joined) return <Redirect to="/dashboard" />
         return (
-        <div onClick={this.props.profile_acc? null : this.joinTeam} className="team_card">
+        <div onClick={this.props.profile_acc? null : this.joinTeam} className="regular_card">
             <h1 className="team_name">{this.props.team.name}</h1>
             <p className="team_location">{this.props.team.location}</p>
             <p className="team_mem_num">{this.props.team.number_of_members}</p>

@@ -89,7 +89,7 @@ class Profile extends React.Component{
             <div className="login-main">
                 {this.state.user.attributes !== undefined ?
                 <Fragment>
-                    <img src={this.state.user.attributes.profile_pic} alt="" style={{borderRadius: "50px", marginTop: "50px", maxHeight: "50vh", maxWidth: "50vw"}}/>
+                    <img src={this.state.user.attributes.profile_pic_path} alt="" style={{borderRadius: "50px", marginTop: "50px", maxHeight: "50vh", maxWidth: "50vw"}}/>
                     <h1 className="team_name">{this.state.user.attributes.username}</h1>
                     <h1 className="team_name">{this.state.user.attributes.first_name} {this.state.user.attributes.last_name}</h1>
                     <h1 className="team_name">{this.state.user.attributes.location}</h1>

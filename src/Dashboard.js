@@ -178,14 +178,6 @@ class Dashboard extends React.Component{
                         <Fragment>
                             {this.state.loaded ?
                             <div className="dash_main">  
-                                {/* <div className="top_dash">
-                                    <div className="logos_div">
-                                        <img className="team_logo" src={this.props.myTeam.attributes.logo} alt="sport_logo" />
-                                        <img className="activity_logo" src={this.props.currentUser.user.data.attributes.activities.find(act => act.id === this.props.sportId).logo_path} alt="sport_logo_path" />
-                                    </div>
-                                    <h1 className="team_name">{this.props.myTeam.attributes.name}</h1>
-                                    <p className="team_location">{this.props.myTeam.attributes.location}</p>
-                                </div> */}
                                 <div className="top_dash">
                                     <div className="logos_div">
                                         <img className="team_logo" src={this.props.myTeam.attributes.logo} alt="sport_logo" />
@@ -226,13 +218,24 @@ class Dashboard extends React.Component{
                                     </div>
                                     <div className="team_info">
                                         <h3>Team Info</h3>
-                                        <p>Admin: <Link to={`/profile/@${this.props.myTeam.attributes.admin.username}`}>{this.props.myTeam.attributes.admin.username}</Link></p>
+                                        <p>Admin: <Link to={`/profile/@${this.props.myTeam.attributes.admin.username}`}><span class="avatar" style={{borderRadius: "50%"}}><img  src={this.props.myTeam.attributes.admin.profile_pic_path} /></span></Link></p>
+                                        {
+                                        this.props.myTeam.attributes.users.length > 5 ?
+                                            <div class="avatars">
+                                                {this.props.myTeam.attributes.users.sort(() => 0.5 - Math.random()).slice(0, 3).map(user => <span class="avatar"><img  src={user.profile_pic_path} /></span>)}
+                                                <span class="avatar" style={{backgroundColor: "#E8474C"}} title="More users"><h1>+{this.props.myTeam.attributes.users.length - 4}</h1></span>
+                                            </div>
+                                            :
+                                            <div class="avatars">
+                                                {this.props.myTeam.attributes.users.sort(() => 0.5 - Math.random()).map(user => <span class="avatar"><Link to={`/profile/@${user.username}`}><img  src={user.profile_pic_path} title={user.username} /></Link></span>)}
+                                            </div>
+                                        }
                                         <p className="team_mem_num">Number of members: {this.props.myTeam.attributes.number_of_members}</p>
                                         <p className="team_score">Games won: {this.props.myTeam.attributes.won_games}</p>
                                         <p className="team_score">Ties: {this.props.myTeam.attributes.tie_games}</p>
                                         <p className="team_score">Games lost: {this.props.myTeam.attributes.lost_games}</p>
                                         {this.props.myTeam.attributes.admin.id === this.props.currentUser.user.data.attributes.id ?
-                                        <button onClick={this.handleJoinGroup} className='dash_button'>Join Group</button>
+                                        <button onClick={this.handleJoinGroup} className='dash_button' style={{marginBottom: "10px"}}>Join Group</button>
                                         :
                                         null
                                         }
