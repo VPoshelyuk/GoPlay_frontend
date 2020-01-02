@@ -105,7 +105,7 @@ class Profile extends React.Component{
         fD.append("birthday", this.state.user.attributes.birthday)
         fD.append("gender", this.state.user.attributes.gender)
         fD.append("bio", this.state.bio)
-        fD.append("password", this.state.user.attributes.password)
+        fD.append("password_digest", this.state.user.attributes.password_digest)
         fD.append("admin", this.state.user.attributes.admin)
         fD.append("won_games", this.state.user.attributes.won_games)
         fD.append("lost_games", this.state.user.attributes.lost_games)

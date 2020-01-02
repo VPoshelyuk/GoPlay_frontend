@@ -183,7 +183,7 @@ class Dashboard extends React.Component{
                             <div className="dash_main">  
                                 <div className="top_dash">
                                     <div className="logos_div">
-                                        <img className="team_logo" src={this.props.myTeam.attributes.logo} alt="sport_logo" />
+                                        <img className="team_logo" src={this.props.myTeam.attributes.logo_path} alt="sport_logo" />
                                     </div>
                                     <h1 className="team_name">{this.props.myTeam.attributes.name}</h1>
                                     <div className="location_div">

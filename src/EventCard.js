@@ -3,6 +3,7 @@ import { Redirect, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { addEvent, addAvailableEvent } from './redux/actions/user_actions'
 import { setTeam } from './redux/actions/team_actions'
+var QRCode = require('qrcode.react');
 
 class EventCard extends React.Component{
 
@@ -13,7 +14,14 @@ class EventCard extends React.Component{
         going: [],
         maybe: [],
         nope: [],
+        clicked: false,
         viewed: false
+    }
+
+    handleClick = () => {
+        this.setState({
+            clicked: !this.state.clicked
+        })
     }
 
     handleParticipateInEvent = () => {
@@ -231,23 +239,9 @@ class EventCard extends React.Component{
         }
     }
 
-    // handleViewEvent = () => {
-    //     // this.props.setevent(this.props.event)
-    //     this.setState({
-    //         viewed: true
-    //     })
-    // }
-
     render(){
         console.log(this.props, this.state)
         if(this.state.added && this.props.myGroup)return <Redirect to="/dashboard" />
-        // if(this.state.viewed){
-        //     this.setState({
-        //         viewed: false
-        //     })
-        //     return <Redirect to={`/event/${this.props.event.id}`} />
-        // }
-        // debugger
         return (
         <Fragment>
             {
@@ -256,7 +250,7 @@ class EventCard extends React.Component{
                     <figure style={{backgroundImage: `url(${this.props.event.pic_path})`}}>
                         <figcaption>
                             <h4> <span>{this.props.event.name}</span></h4>
-                            <p>{this.props.event.price === 0 ? "Free" : this.props.event.price}</p>
+                            <p>{this.props.event.price === 0 ? "Free" : `$${this.props.event.price}`}</p>
                         </figcaption>
                     </figure>
                 </div>
@@ -265,8 +259,11 @@ class EventCard extends React.Component{
                     <div className={this.props.myTeam !== undefined && this.props.myTeam !== null ? "irregular_event_card" : "regular_card"}>
                         <div className="group_logo_div">
                             <img className="group_logo" src={this.props.event.pic_path} alt="event_logo" />
-                            <p className="group_location" style={{fontSize: "40px"}}>{this.props.event.price === 0 ? "Free" : this.props.event.price}</p>
+                            <p className="group_location" style={{fontSize: "40px"}}>{this.props.event.price === 0 ? "Free" : `$${this.props.event.price}`}</p>
                             <p className="event_address" style={{fontSize: "20px"}}>{this.props.event.address}</p>
+                            <div className="location-qr">
+                                <QRCode onClick={this.handleClick} value={`https://maps.google.com/?q=${this.props.event.address}`} size={this.state.clicked? 242: 32}/>
+                            </div>
                             <p className="event_location">Players per team: {this.props.event.players_per_team}</p>
                             <p className="event_location">Number of teams: {this.props.event.max_number_of_teams}</p>
                             <p className="team_locatevent_locationion" style={{borderBottom: "3px dotted white"}}>{this.props.event.pretty_time}</p>
@@ -365,53 +362,6 @@ class EventCard extends React.Component{
                     null
             }
         </Fragment>
-        // <div className="regular_event_card">
-            // <h1 className="event_name">{this.props.event.name}</h1>
-            // <p className="event_location">{this.props.event.price === 0 ? "Free" : this.props.event.price}</p>
-            // <img className="team_logo" src={this.props.event.pic_path} alt="event_pic" />
-            // <h2 className="event_desc">{this.props.event.description}</h2>
-        //     <p className="event_location">Players per team: {this.props.event.players_per_team}</p>
-        //     <p className="event_location">Number of teams: {this.props.event.max_number_of_teams}</p>
-        //     <p className="team_locatevent_locationion">{this.props.event.pretty_time}</p>
-        //     {this.props.myTeam !== undefined && this.props.myTeam !== null?
-        //         this.props.myTeam.attributes.events === undefined || this.props.myTeam.attributes.events.find(event => event.id === this.props.event.id) === undefined?
-        //             <button onClick={this.handleParticipateInEvent} style={{marginTop: "50px"}} className='dash_button'>Count my team in!</button>
-        //             :
-        //             this.props.myTeam.attributes.events.find(event => event.id === this.props.event.id) && this.props.myTeam.attributes.admin.id === this.props.currentUser.user.data.attributes.id?
-        //                 <Fragment>
-        //                     <div onChange={this.setAttendance} name="radio" className="radio-group">
-        //                         <input type="radio" id="option-one" value="Going" name="selector" />
-        //                         <label htmlFor="option-one">I'm Going!</label>
-        //                         <input type="radio" id="option-two" value="Maybe" name="selector" />
-        //                         <label htmlFor="option-two">Maybe</label>
-        //                         <input type="radio" id="option-three" value="Nope" name="selector" />
-        //                         <label htmlFor="option-three">Nope</label>
-        //                     </div>
-        //                     <button onClick={this.handleUnparticipateInEvent} style={{marginTop: "50px"}} className='dash_button'>Sorry, my team can't make it</button>
-        //                 </Fragment>
-        //                 :
-        //                 <button onClick={this.handleChangeMyStatusOnEvent} style={{marginTop: "50px"}} className='dash_button'>I'll go/maybe/no</button>
-        //         :
-        //         this.state.added ?
-        //             this.props.myTeam.attributes.admin.id === this.props.currentUser.user.data.attributes.id?
-        //                 <Fragment>
-        //                     <div onChange={this.setAttendance} name="radio" className="radio-group">
-        //                         <input type="radio" id="option-one" name="selector" />
-        //                         <label htmlFor="option-one">I'm Going!</label>
-        //                         <input type="radio" id="option-two" name="selector" />
-        //                         <label htmlFor="option-two">Maybe</label>
-        //                         <input type="radio" id="option-three" name="selector" />
-        //                         <label htmlFor="option-three">Nope</label>
-        //                     </div>
-        //                     <button onClick={this.handleUnparticipateInEvent} style={{marginTop: "50px"}} className='dash_button'>Sorry, my team can't make it</button>
-        //                 </Fragment>
-        //                 :
-        //                 <button onClick={this.handleChangeMyStatusOnEvent} style={{marginTop: "50px"}} className='dash_button'>I'll go/maybe/no</button>
-        //             :
-        //             null
-
-        //     }
-        // </div>
         );
     }
 }

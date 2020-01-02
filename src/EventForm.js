@@ -106,7 +106,7 @@ class EventForm extends React.Component{
                 <textarea className='textarea' cols='50' id='description' name='description' value={this.state.description} onChange={this.handleChange} rows='4'></textarea>
             </p>
             <p className='field'>
-                <input className='button' type='submit' value='Sign Up' />
+                <input className='button' type='submit' value='Create' />
             </p>
             </form>
         </div>

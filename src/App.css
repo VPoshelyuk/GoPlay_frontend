@@ -964,7 +964,7 @@ label + input[type=radio] + label {
 .group_logo {
   /* min-height: 100%; */
   top: 0;
-  max-height: 250px;
+  height: 230px;
   margin-left: calc(-100%/2);
 }
 
@@ -1244,4 +1244,14 @@ a {
   justify-content: space-between;
   box-shadow: 5px 8px 7px 5px rgba(192, 76, 76, 0.651);
   margin-top: 25px;
+}
+
+.location-qr {
+  z-index: 3;
+  position: absolute;
+  top: 191px;
+  width: 24.5%;
+  text-align: end;
+  /* left: 210px; */
+
 }
