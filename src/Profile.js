@@ -1,15 +1,18 @@
 import React, {Fragment} from "react";
 import { Redirect, withRouter } from "react-router-dom"
 import { connect } from 'react-redux'
-import { setUser } from './redux/actions/user_actions'
+import { setUser, setMyGroups  } from './redux/actions/user_actions'
 import TeamCard from './TeamCard'
+import GroupCard from './GroupCard'
 import LogOut from './LogOut'
 
 class Profile extends React.Component{
     state = {
         user: "",
+        user_info: null,
         username: "",
         phone_number: "",
+        loaded: false,
         edited: false,
         deleted: false
     }
@@ -20,10 +23,27 @@ class Profile extends React.Component{
         .then(users => {
             this.setState({
                 user: users.users.data.find(user => user.attributes.username.toLowerCase() === this.props.match.params.username.toLowerCase()),
-                username: this.props.currentUser.user.data.attributes.username,
-                phone_number: this.props.currentUser.user.data.attributes.phone_number
             })
         })
+        fetch("http://localhost:3000/api/v1/my_groups", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                user_id: this.props.currentUser.user.data.attributes.id
+            })
+        })
+        .then(res => res.json())
+        .then(groups => {
+            console.log(groups)
+            this.props.setMyGroups(groups.groups.data)
+                this.setState({
+                    loaded: true
+                })
+        })
+
     }
 
     // componentDidUpdate(){
@@ -86,39 +106,68 @@ class Profile extends React.Component{
         if(this.state.user === undefined) return <h1 className="team_name">Profile doesn't exist!</h1>
         // console.log(this.state.user.attributes)
         return (
-            <div className="login-main">
+            <div className="dash_main" style={{marginTop: "13vh"}}>
                 {this.state.user.attributes !== undefined ?
                 <Fragment>
-                    <img src={this.state.user.attributes.profile_pic_path} alt="" style={{borderRadius: "50px", marginTop: "50px", maxHeight: "50vh", maxWidth: "50vw"}}/>
-                    <h1 className="team_name">{this.state.user.attributes.username}</h1>
-                    <h1 className="team_name">{this.state.user.attributes.first_name} {this.state.user.attributes.last_name}</h1>
-                    <h1 className="team_name">{this.state.user.attributes.location}</h1>
-                    <h1 className="team_name">{this.state.user.attributes.bio}</h1>
-                    <h1 className="team_name">{this.state.user.attributes.bio}</h1>
-                    {this.state.user.attributes.teams.map(team => <TeamCard key={team.id} team={team} profile_acc={true} dash_style={true}/>)}
+                    <div className="profileHat">
+                        <div className="userImg">
+                            <img className="userImg" src={this.state.user.attributes.profile_pic_path} alt="profile_pic"/>
+                        </div>
+                        <div className="prettyfyUserNames">
+                            <div className="userNames">
+                                <h1 className="user_info">{this.state.user.attributes.username}</h1>
+                                <h1 className="user_info">{this.state.user.attributes.first_name} {this.state.user.attributes.last_name}</h1>
+                                <h1 className="user_info">{this.state.user.attributes.birthday}</h1>
+                                <h1 className="user_info">{this.state.user.attributes.gender}</h1>
+                                <h1 className="user_info">{this.state.user.attributes.location}</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="myActivities">
+                        {this.state.user.attributes.activities.map(activity => <img src={activity.logo_path} alt="activity_pic"/>)}
+                    </div>
+                    <div className="profileDescDiv">
+                        <h1 className="profile_desc">{this.state.user.attributes.bio}</h1>
+                    </div>
+                    {this.state.user.attributes.teams.length !== 0 ?
+                        <Fragment>
+                            <p>My teams</p>
+                            <div className="myTeams">
+                                {this.state.user.attributes.teams.map(team => <TeamCard key={team.id} team={team} profile_acc={true} dash_style={true}/>)}
+                            </div>
+                        </Fragment>
+                        :
+                        <p>No teams yet</p>
+                    }
+                    {/* {this.state.user.attributes.teams.map(team => <TeamCard key={team.id} team={team} profile_acc={true} dash_style={true}/>)} */}
                     
                 {this.state.user.attributes.username === this.props.currentUser.user.data.attributes.username ?
                     <Fragment>
-                        <h1>Edit your profile:</h1>
-                        <form className="form1" onSubmit={this.handleSubmit}>
-                            <p>Username:</p>
-                            <input className="un" type="text" align="center" name="username" value={this.state.username} onChange={this.handleChange} placeholder="Userame" />
-                            <p>Phone Number:</p>
-                            <input className="un" type="text" align="center" name="phone_number" value={this.state.phone_number} onChange={this.handleChange} placeholder="Phone Number" />
-                            <input style={{marginBottom: "10px"}} className="submit" align="center" type="submit" value="Edit" />
-                        </form>
-                        <button style={{fontSize: "65px", margin: "10px"}} className="submit" onClick={this.handleDelete}>Delete your Profile</button>
+                        {
+                            this.state.loaded ?
+                            <Fragment>
+                                <p>Groups, where I am Admin</p>
+                                <div className="myTeams">
+                                    {this.props.myGroups.map(group => <GroupCard key={group.attributes.id} group={group.attributes} profile_acc={true} dash_style={true}/>)}
+                                </div>
+                            </Fragment>
+                            :
+                            <div className="lds-spinner"><div></div><div></div><div></div>
+                            <div></div><div></div><div></div><div></div><div></div>
+                            <div></div><div></div><div></div><div></div></div>
+                        }
+                        <button onClick={this.handleUpdate} style={{marginTop: "20px", marginBottom: "10px"}} className='dash_button'>Edit Profile</button>
+                        <button onClick={this.handleDelete} style={{marginTop: "20px", marginBottom: "10px"}} className='dash_button'>Delete Profile</button>
                     </Fragment>
                     :
                     null
                 }
                 </Fragment>
                 :
-                <div className="loading">
-                    <div className="lds-spinner"><div></div><div></div><div></div>
-                    <div></div><div></div><div></div><div></div><div></div>
-                    <div></div><div></div><div></div><div></div></div>
-                </div>
+                <div className="lds-spinner"><div></div><div></div><div></div>
+                <div></div><div></div><div></div><div></div><div></div>
+                <div></div><div></div><div></div><div></div></div>
+
                 }
             </div>
         );
@@ -127,8 +176,9 @@ class Profile extends React.Component{
 
 function msp(state){
     return {
-      currentUser: state.userReducer.currentUser
+      currentUser: state.userReducer.currentUser,
+      myGroups: state.userReducer.myAdminGroups
     }
 }
 
-export default withRouter(connect(msp, { setUser })(Profile))
+export default withRouter(connect(msp, { setUser, setMyGroups  })(Profile))

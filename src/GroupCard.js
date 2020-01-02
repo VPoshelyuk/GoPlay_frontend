@@ -1,5 +1,5 @@
 import React, {Fragment} from "react";
-import { Redirect, NavLink } from 'react-router-dom'
+import { Redirect, NavLink, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { setGroup } from './redux/actions/team_actions'
 
@@ -65,10 +65,44 @@ class GroupCard extends React.Component{
                         </figure>
                     </NavLink>
                     :
-                    <div onClick={this.props.add === 0 ? this.handleViewGroup : null} className="regular_card">
+                    <div onClick={this.props.add === 0 ? this.handleViewGroup : null} className={this.props.add === 1 ? "irregular_card" : "regular_card"}>
                         <div className="group_logo_div">
                             <img className="group_logo" src={this.props.group.logo_path} alt="group_logo" />
                             <p className="group_location">{this.props.group.location}</p>
+                            {this.props.group.events.length !== 0 ?
+                                <Fragment>
+                                <p style={{marginTop: "10px"}}>Events</p>
+                                {this.props.group.events.length > 5 ?
+                                    <div className="avatars">
+                                        {this.props.group.events.sort(() => 0.5 - Math.random()).slice(0, 4).map(event => <span className="avatar" ><img  src={event.pic_path} title={event.name} /></span>)}
+                                        <span className="avatar" style={{backgroundColor: "#E8474C"}} title="More events"><h1>+{this.props.group.events.length - 4}</h1></span>
+                                    </div>
+                                    :
+                                    <div className="avatars">
+                                        {this.props.group.events.sort(() => 0.5 - Math.random()).map(event => <span className="avatar"><Link to={`/groups/${this.props.group.id}`}><img  src={event.pic_path} title={event.name} /></Link></span>)}
+                                    </div>
+                                }
+                                </Fragment>
+                                :
+                                null
+                            }
+                            {this.props.group.teams.length !== 0 ?
+                                <Fragment>
+                                <p style={{marginTop: "10px"}}>Teams</p>
+                                {this.props.group.teams.length > 5 ?
+                                    <div className="avatars">
+                                        {this.props.group.teams.sort(() => 0.5 - Math.random()).slice(0, 4).map(team => <span className="avatar" ><img  src={team.logo_path} title={team.name} /></span>)}
+                                        <span className="avatar" style={{backgroundColor: "#E8474C"}} title="More teams"><h1>+{this.props.group.teams.length - 4}</h1></span>
+                                    </div>
+                                    :
+                                    <div className="avatars">
+                                        {this.props.group.teams.sort(() => 0.5 - Math.random()).map(team => <span className="avatar"><Link to={`/groups/${this.props.group.id}`}><img  src={team.logo_path} title={team.name} /></Link></span>)}
+                                    </div>
+                                }
+                                </Fragment>
+                                :
+                                null
+                            }
                         </div>
                         <div className="group_info_div">
                             <h1 className="group_name">{this.props.group.name}</h1>

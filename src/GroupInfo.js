@@ -55,61 +55,20 @@ class GroupInfo extends React.Component{
                     <div className="desc_info">
                         <div className="desc_groups">
                             <h2 className="team_desc">{this.props.myGroup.description}</h2>
-                            {this.props.myGroup.events.map(event => <EventCard key={event.id} event={event} />)}
-                            {/* {
-                                this.props.myTeam.attributes.groups.length !== 0?
-                                <Fragment>
-                                    <h1 className="main_text" style={{textAlign: "left"}}>Your groups:</h1>
-                                    <div className="small_cards">
-                                        {this.props.myTeam.attributes.groups.map(group => <GroupCard key={group.id} group={group} add={0} dash_style={true}/>)}
-                                    </div>
-                                </Fragment>
-                                :
-                                null
-                            }
-                            {
-                                this.props.myEvents.find(event => event.attributes.teams.find(team => team.id === this.props.myTeam.attributes.id))?
-                                <Fragment>
-                                    <h1 className="main_text" style={{textAlign: "left"}}>Your events:</h1>
-                                    {this.props.myEvents.map(event => event.attributes.teams.find(team => team.id === this.props.myTeam.attributes.id)  ? <EventCard key={event.attributes.id} event={event.attributes} status_check={1} /> : null)}  
-                                </Fragment>
-                                :
-                                null
-                            } */}
-                            {/* <h1>Your events:</h1>
-                            {this.props.currentUser.user.data.attributes.events.map(event => <EventCard key={event.id} event={event} status_check={1} />)} */}
-                            {/* <h1 className="main_text" style={{textAlign: "left"}}>Available:</h1>
-                            {this.props.availableEvents.map(event => <EventCard key={event.attributes.id} event={event.attributes} />)} */}
+                            {this.props.myGroup.events.sort(function(a,b) {
+                            a = a.time.split('/').reverse().join('');
+                            b = b.time.split('/').reverse().join('');
+                            return a > b ? 1 : a < b ? -1 : 0;
+                            // return a.localeCompare(b);         // <-- alternative 
+                            }).map(event => <EventCard key={event.id} event={event} />)}
                         </div>
                         <div className="team_info">
-                            <h3>Group Info</h3>
                             {
                                 this.props.myGroup.admin_id === this.props.currentUser.user.data.attributes.id ?
                                 <button onClick={this.handleCreateEvent} style={{marginTop: "50px"}} className='dash_button'>Create Event</button>
                                 :
                                 null
                             }
-                            {/* <p>Admin: <Link to={`/profile/@${this.props.myTeam.attributes.admin.username}`}><span class="avatar" style={{borderRadius: "50%"}}><img  src={this.props.myTeam.attributes.admin.profile_pic_path} /></span></Link></p>
-                            {
-                            this.props.myTeam.attributes.users.length > 5 ?
-                                <div class="avatars">
-                                    {this.props.myTeam.attributes.users.sort(() => 0.5 - Math.random()).slice(0, 3).map(user => <span class="avatar"><img  src={user.profile_pic_path} /></span>)}
-                                    <span class="avatar" style={{backgroundColor: "#E8474C"}} title="More users"><h1>+{this.props.myTeam.attributes.users.length - 4}</h1></span>
-                                </div>
-                                :
-                                <div class="avatars">
-                                    {this.props.myTeam.attributes.users.sort(() => 0.5 - Math.random()).map(user => <span class="avatar"><Link to={`/profile/@${user.username}`}><img  src={user.profile_pic_path} title={user.username} /></Link></span>)}
-                                </div>
-                            }
-                            <p className="team_mem_num">Number of members: {this.props.myTeam.attributes.number_of_members}</p>
-                            <p className="team_score">Games won: {this.props.myTeam.attributes.won_games}</p>
-                            <p className="team_score">Ties: {this.props.myTeam.attributes.tie_games}</p>
-                            <p className="team_score">Games lost: {this.props.myTeam.attributes.lost_games}</p>
-                            {this.props.myTeam.attributes.admin.id === this.props.currentUser.user.data.attributes.id ?
-                            <button onClick={this.handleJoinGroup} className='dash_button' style={{marginBottom: "10px"}}>Join Group</button>
-                            :
-                            null
-                            } */}
                         </div>
                     </div>
                 </div>

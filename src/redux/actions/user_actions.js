@@ -26,6 +26,13 @@ export function addGroup(group){
     return {type: "ADD_GROUP", payload: {group: group}}
 }
 
+export function addEvent(eToAdd){
+    return {type: "ADD_EVENT", payload: {eToAdd: eToAdd}}
+}
+export function addAvailableEvent(aeToAdd){
+    return {type: "ADD_AVAILABLE_EVENT", payload: {aeToAdd: aeToAdd}}
+}
+
 export function passEmailAndPass(newEmail, newPass){
     return {type: "PASS_EMAIL_AND_PASS", payload: {email: newEmail, password: newPass}}
 }
