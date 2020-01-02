@@ -168,7 +168,6 @@ class Dashboard extends React.Component{
         return (
             <Fragment>
                 <form onChange={this.handleChange} className='form'>
-
                 <p className='field' style={{right: "0" ,marginTop: "-20px", marginBottom: "10px", width: "100%"}}>
                     <select className='select' style={{textAlignLast: "center"}} defaultValue={this.props.currentUser.user.data.attributes.activities.sort((a, b) => a.id - b.id)[0].id} name="location" id='select'>
                     <option value='' disabled>Choose Sport:</option>

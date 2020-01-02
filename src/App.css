@@ -515,7 +515,7 @@ html {
   width: 95%;
   height: 80vh;
   margin: 0vh auto;
-  box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.651);
+  box-shadow: 5px 8px 7px 5px rgba(192, 76, 76, 0.651);
   overflow-y: scroll;
   display: flex;
   flex-flow: column;
