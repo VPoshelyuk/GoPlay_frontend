@@ -2,7 +2,7 @@ import React, {Fragment} from "react";
 import { Redirect, Link, NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { changeSportId, setTeam, setGroup } from './redux/actions/team_actions'
-import { setMyTeams, setAvailableEvents, setMyEvents } from './redux/actions/user_actions'
+import { setMyTeams, setAvailableEvents, setMyEvents, setMyGroups } from './redux/actions/user_actions'
 import GroupCard from './GroupCard';
 import EventCard from './EventCard';
 
@@ -11,7 +11,8 @@ class Dashboard extends React.Component{
         createATeam: false,
         searchForATeam: false,
         joinGroup: false,
-        loaded: false
+        loaded: false,
+        toggler: false
     }
 
     handleCreateTeam = () => {
@@ -37,8 +38,6 @@ class Dashboard extends React.Component{
     }
 
     componentDidMount(){
-        console.log(Date.now())
-        console.log(this.props)
         this.props.setGroup(undefined)
         fetch("http://localhost:3000/api/v1/my_teams", {
               method: "POST",
@@ -94,6 +93,11 @@ class Dashboard extends React.Component{
     }
 
     componentDidUpdate(prevProps){
+        if(prevProps.myEvents !== this.props.myEvents || prevProps.availableEvents !== this.props.availableEvents){
+            this.setState({
+                toggler: !this.state.toggler
+            })
+        }
         if(this.props.myTeams !== undefined && this.props.sportId !== prevProps.sportId && prevProps.sportId !== 0){
             this.setState({
                 loaded: false
@@ -164,7 +168,6 @@ class Dashboard extends React.Component{
         return (
             <Fragment>
                 <form onChange={this.handleChange} className='form'>
-
                 <p className='field' style={{right: "0" ,marginTop: "-20px", marginBottom: "10px", width: "100%"}}>
                     <select className='select' style={{textAlignLast: "center"}} defaultValue={this.props.currentUser.user.data.attributes.activities.sort((a, b) => a.id - b.id)[0].id} name="location" id='select'>
                     <option value='' disabled>Choose Sport:</option>
@@ -178,14 +181,6 @@ class Dashboard extends React.Component{
                         <Fragment>
                             {this.state.loaded ?
                             <div className="dash_main">  
-                                {/* <div className="top_dash">
-                                    <div className="logos_div">
-                                        <img className="team_logo" src={this.props.myTeam.attributes.logo} alt="sport_logo" />
-                                        <img className="activity_logo" src={this.props.currentUser.user.data.attributes.activities.find(act => act.id === this.props.sportId).logo_path} alt="sport_logo_path" />
-                                    </div>
-                                    <h1 className="team_name">{this.props.myTeam.attributes.name}</h1>
-                                    <p className="team_location">{this.props.myTeam.attributes.location}</p>
-                                </div> */}
                                 <div className="top_dash">
                                     <div className="logos_div">
                                         <img className="team_logo" src={this.props.myTeam.attributes.logo} alt="sport_logo" />
@@ -202,7 +197,7 @@ class Dashboard extends React.Component{
                                         {
                                             this.props.myTeam.attributes.groups.length !== 0?
                                             <Fragment>
-                                                <h1 className="main_text" style={{textAlign: "left"}}>Your groups:</h1>
+                                                <h1 className="main_text" style={{textAlign: "left",fontFamily: "'Righteous', cursive"}}>Your groups:</h1>
                                                 <div className="small_cards">
                                                     {this.props.myTeam.attributes.groups.map(group => <GroupCard key={group.id} group={group} add={0} dash_style={true}/>)}
                                                 </div>
@@ -213,26 +208,47 @@ class Dashboard extends React.Component{
                                         {
                                             this.props.myEvents.find(event => event.attributes.teams.find(team => team.id === this.props.myTeam.attributes.id))?
                                             <Fragment>
-                                                <h1 className="main_text" style={{textAlign: "left"}}>Your events:</h1>
+                                                <h1 className="main_text" style={{textAlign: "left",fontFamily: "'Righteous', cursive"}}>Your events:</h1>
                                                 {this.props.myEvents.map(event => event.attributes.teams.find(team => team.id === this.props.myTeam.attributes.id)  ? <EventCard key={event.attributes.id} event={event.attributes} status_check={1} /> : null)}  
                                             </Fragment>
                                             :
                                             null
                                         }
-                                        {/* <h1>Your events:</h1>
-                                        {this.props.currentUser.user.data.attributes.events.map(event => <EventCard key={event.id} event={event} status_check={1} />)} */}
-                                        <h1 className="main_text" style={{textAlign: "left"}}>Available:</h1>
-                                        {this.props.availableEvents.map(event => <EventCard key={event.attributes.id} event={event.attributes} />)}
+                                        {
+                                            this.props.availableEvents.find(event => event.attributes.teams.every(team => team.id !== this.props.myTeam.attributes.id))?
+                                            <Fragment>
+                                                <h1 className="main_text" style={{textAlign: "left",fontFamily: "'Righteous', cursive"}}>Available:</h1>
+                                                {this.props.availableEvents.map(event => this.props.myTeam.attributes.groups.find(group => event.attributes.group_id === group.id)  ? <EventCard key={event.attributes.id} event={event.attributes} status_check={1} /> : null)}  
+                                                {/* {this.props.availableEvents.map(event => event.attributes.teams.find(team => team.id !== this.props.myTeam.attributes.id)  ? <EventCard key={event.attributes.id} event={event.attributes} status_check={1} /> : null)}   */}
+                                            </Fragment>
+                                            :
+                                            null
+                                        }
                                     </div>
                                     <div className="team_info">
                                         <h3>Team Info</h3>
-                                        <p>Admin: <Link to={`/profile/@${this.props.myTeam.attributes.admin.username}`}>{this.props.myTeam.attributes.admin.username}</Link></p>
+                                        <p>Admin</p>
+                                        <div className="avatars">
+                                            <span className="avatar"><Link to={`/profile/@${this.props.myTeam.attributes.admin.username}`}><img  src={this.props.myTeam.attributes.admin.profile_pic_path} /></Link></span>
+                                        </div>
+                                        <NavLink to={`/profile/@${this.props.myTeam.attributes.admin.username}`}>{this.props.myTeam.attributes.admin.username}</NavLink>
                                         <p className="team_mem_num">Number of members: {this.props.myTeam.attributes.number_of_members}</p>
+                                        {
+                                        this.props.myTeam.attributes.users.length > 5 ?
+                                            <div className="avatars">
+                                                {this.props.myTeam.attributes.users.sort(() => 0.5 - Math.random()).slice(0, 3).map(user => <span className="avatar"><img  src={user.profile_pic_path} /></span>)}
+                                                <span className="avatar" style={{backgroundColor: "#E8474C"}} title="More users"><h1>+{this.props.myTeam.attributes.users.length - 4}</h1></span>
+                                            </div>
+                                            :
+                                            <div className="avatars">
+                                                {this.props.myTeam.attributes.users.sort(() => 0.5 - Math.random()).map(user => <span className="avatar"><Link to={`/profile/@${user.username}`}><img  src={user.profile_pic_path} title={user.username} /></Link></span>)}
+                                            </div>
+                                        }
                                         <p className="team_score">Games won: {this.props.myTeam.attributes.won_games}</p>
                                         <p className="team_score">Ties: {this.props.myTeam.attributes.tie_games}</p>
                                         <p className="team_score">Games lost: {this.props.myTeam.attributes.lost_games}</p>
                                         {this.props.myTeam.attributes.admin.id === this.props.currentUser.user.data.attributes.id ?
-                                        <button onClick={this.handleJoinGroup} className='dash_button'>Join Group</button>
+                                        <button onClick={this.handleJoinGroup} className='dash_button' style={{marginBottom: "10px"}}>Join Group</button>
                                         :
                                         null
                                         }
@@ -272,4 +288,4 @@ function msp(state){
     }
 }
 
-export default connect(msp, { changeSportId, setTeam, setMyTeams, setGroup, setAvailableEvents, setMyEvents })(Dashboard)
+export default connect(msp, { changeSportId, setTeam, setMyTeams, setGroup, setAvailableEvents, setMyEvents, setMyGroups })(Dashboard)

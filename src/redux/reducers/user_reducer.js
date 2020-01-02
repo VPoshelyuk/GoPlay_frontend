@@ -24,6 +24,10 @@ const defaultState = {
         return {...prevState, myTeams: [...prevState.myTeams,action.payload.team]}
       case "ADD_GROUP":
         return {...prevState, myAdminGroups: [...prevState.myAdminGroups,action.payload.group]}
+      case "ADD_EVENT":
+        return {...prevState, myEvents: [...prevState.myEvents,action.payload.eToAdd]}
+      case "ADD_AVAILABLE_EVENT":
+          return {...prevState, availableEvents: [...prevState.availableEvents,action.payload.aeToAdd]}
       case "PASS_EMAIL_AND_PASS":
         return {...prevState, 
               email: action.payload.email,

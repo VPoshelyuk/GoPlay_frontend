@@ -14,6 +14,7 @@ class EventForm extends React.Component{
         players_per_team: "",
         max_number_of_teams: "",
         description: "",
+        address: "",
         loaded: false,
         added: false
     }
@@ -43,6 +44,7 @@ class EventForm extends React.Component{
         fD.append("players_per_team", this.state.players_per_team)
         fD.append("max_number_of_teams", this.state.max_number_of_teams)
         fD.append("description", this.state.description)
+        fD.append("address", this.state.address)
         fD.append("group_id", this.props.myGroup.id)
         console.log(this.state.max_number_of_teams)
         fetch("http://localhost:3000/api/v1/events", {
@@ -91,9 +93,13 @@ class EventForm extends React.Component{
                 <label className='label' htmlFor='max_number_of_teams'>Max Team Number</label>
                 <input className='text-input' id='max_number_of_teams' name='max_number_of_teams' value={this.state.max_number_of_teams} onChange={this.handleChange} type='number' min="2" max="32"/>
             </p>
-            <p className='field required'>
+            <p className='field half required'>
                 <label className='label' htmlFor='e_logo'>Event Picture</label>
                 <input className='text-input' id='e_logo' name='e_logo' onChange={this.addPic} accept="image/*" required type='file'/>
+            </p>
+            <p className='field half'>
+                <label className='label' htmlFor='address'>Address</label>
+                <input className='text-input' cols='50' id='address' name='address' value={this.state.address} onChange={this.handleChange} />
             </p>
             <p className='field'>
                 <label className='label' htmlFor='description'>Description</label>

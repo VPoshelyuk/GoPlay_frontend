@@ -11,7 +11,7 @@ function NavBar (props) {
 
     return (
         <header>
-            <NavLink to="/"><img className="logo" src="http://localhost:3001/images/nav_logo.png" alt="NavBar logo"/></NavLink> 
+            <NavLink to="/"><img className="logo" style={{borderRadius: "15px 0px 0px 15px"}} src="http://localhost:3001/images/nav_logo.png" alt="NavBar logo"/></NavLink> 
             {/* werd stuff with img path */}
             <div className="menu-wrap">
                 <input type="checkbox" className="toggler"/>

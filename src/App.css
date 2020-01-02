@@ -9,7 +9,10 @@
 }
 
 p {
-  color: aqua;
+  font-family: 'Righteous', cursive;
+  font-size: 20px;
+  color: #ffffff;
+  background-color: #;
 }
 
 * {
@@ -453,53 +456,6 @@ html {
   box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
 }
 
-.not_so_main_div {
-  margin: 20px 80px;
-}
-
-.event_pic {
-  width: 20%;
-  overflow: hidden;
-  text-align: center;
-}
-.event_pic img {
-  max-width: 100%;
-  max-height: 100%;
-}
-
-.event_qr {
-  float: right;
-  margin-right: 250px;
-}
-
-.like_dislike {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.venue_info {
-  border: 2px solid rgba(255, 166, 158, 0.582) ;
-}
-
-.like_dislike_btn:hover {
-  animation: btn 1s infinite
-}
-
-
-@keyframes btn {
-  0% {width: 50px}
-  30% { width: 80px; }
-  70% { width: 80px; }
-  100% { width: 50px; }
-}
-
-/* width: 80px;
-transition: width .5s ease-in-out */
-
-body {
-  color: turquoise;
-}
-
 .video_element {
   /* margin: auto; */
   /* width: 50%; */
@@ -559,7 +515,7 @@ body {
   width: 95%;
   height: 80vh;
   margin: 0vh auto;
-  box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.651);
+  box-shadow: 5px 8px 7px 5px rgba(192, 76, 76, 0.651);
   overflow-y: scroll;
   display: flex;
   flex-flow: column;
@@ -789,8 +745,9 @@ body {
 .logos_div {
   width: 256px;
   height: 256px;
-  border: turquoise 2px solid;
+  /* border: turquoise 2px solid; */
   position: relative;
+  overflow: hidden;
   left: 2vw;
   top: 3vh;
   /* overflow: visible; */
@@ -800,8 +757,9 @@ body {
   width: 320px;
   height: 256px;
   text-align: center;
-  border: turquoise 2px solid;
+  /* border: turquoise 2px solid; */
   position: relative;
+  overflow: hidden;
   right: 1vw;
   top: 3vh;
 }
@@ -827,18 +785,19 @@ body {
   display: flex;
   flex-flow: row;
   justify-content: space-between;
-  border: hotpink 3px solid;
+  /* border: hotpink 3px solid; */
   padding-bottom: 3vh;
 }
 
 .desc_info {
+  border-top: white 4px dotted;
   position: relative;
   /* width: 70%; */
   /* margin-top: calc(256px + 3vh); */
   display: flex;
   flex-flow: row;
   justify-content: space-between;
-  border: blue 3px solid;
+  /* border: blue 3px solid; */
 }
 .desc_groups {
   position: relative;
@@ -847,13 +806,13 @@ body {
   display: flex;
   flex-flow: column;
   justify-content: space-between;
-  border: yellow 5px solid;
+  /* border: yellow 5px solid; */
 }
 
 .team_desc {
   font-family: 'Righteous', cursive;
   color: rgb(255, 255, 255);
-  border: hotpink 3px solid;
+  /* border: hotpink 3px solid; */
   width: 65vw;
   margin: 0 auto;
 }
@@ -864,20 +823,10 @@ h3 {
 
 .team_info {
   width: 30vw;
-  height: 256px;
+  /* height: 256px; */
   align-items: center;
-  border: red 3px solid;
-}
-
-.team_card {
-  height: auto;
-  width: 95%;
-  box-shadow: 1px 11px 15px 10px rgba(192, 76, 76, 0.651);
-  margin-top: 15px;
-  margin-bottom: 5px;
-  margin-left: 2.5%;
-  /* position: relative; */
-  /* overflow-y: scroll; */
+  text-align: center;
+  border-left: white 4px dotted;
 }
 
 .search-main {
@@ -918,7 +867,7 @@ label {
   cursor: pointer;
   font-weight: bold;
   padding: 5px 0px;
-  width: 200px;
+  width: calc(100% / 3);
 }
 
 input[type=radio]:checked + label {
@@ -933,9 +882,10 @@ label + input[type=radio] + label {
 .radio-group {
   border: solid 3px #E8474C;
   display: inline-block;
-  margin: 20px;
+  margin: 5px auto 0;    
   border-radius: 10px;
   overflow: hidden;
+  width: 90%;
 }
 /* radio */
 
@@ -949,8 +899,45 @@ label + input[type=radio] + label {
   overflow-y: scroll;
   /* overflow: visible; */
   width: 90%;
-  height: 500px;
+  height: 450px;
   background-image: url("http://localhost:3001/images/box_bkgnd.jpg");
+  box-shadow: 5px 8px 7px 5px rgba(192, 76, 76, 0.651);
+  background-size: 100%;
+  margin: auto;
+  margin-bottom: 25px;
+  overflow: hidden;
+  display: flex;
+  flex-flow: row wrap;
+  /* border: #E8474C 4px solid; */
+  justify-content: space-between;
+}
+
+.irregular_card {
+  position: relative;
+  overflow-y: scroll;
+  /* overflow: visible; */
+  width: 90%;
+  height: 600px;
+  background-image: url("http://localhost:3001/images/box_bkgnd.jpg");
+  box-shadow: 5px 8px 7px 5px rgba(192, 76, 76, 0.651);
+  background-size: 100%;
+  margin: auto;
+  margin-bottom: 25px;
+  overflow: hidden;
+  display: flex;
+  flex-flow: row wrap;
+  /* border: #E8474C 4px solid; */
+  justify-content: space-between;
+}
+
+.irregular_event_card {
+  position: relative;
+  overflow-y: scroll;
+  /* overflow: visible; */
+  width: 90%;
+  /* height: 580px; */
+  background-image: url("http://localhost:3001/images/box_bkgnd.jpg");
+  box-shadow: 5px 8px 7px 5px rgba(192, 76, 76, 0.651);
   background-size: 100%;
   margin: auto;
   margin-bottom: 25px;
@@ -962,19 +949,22 @@ label + input[type=radio] + label {
 }
 
 .group_logo_div {
-  width: 300px;
-  height: 300px;
+  /* width: 300px; */
+  width: 25%;
+  /* max-height: 250px; */
   overflow: hidden;
   border-radius: 3px;
   text-align: center;
   display: flex;
   flex-flow: column;
-  justify-content: center;
-  border: cornflowerblue 4px solid;
+  justify-content: top;
+  border-right: white 4px dotted;
 }
 
 .group_logo {
-  min-height: 100%;
+  /* min-height: 100%; */
+  top: 0;
+  max-height: 250px;
   margin-left: calc(-100%/2);
 }
 
@@ -982,17 +972,30 @@ label + input[type=radio] + label {
   position: absolute;
   z-index: 2;
   top: 10px;
-  width: 300px;
+  width: 25%;
   text-align: center;
   font-family: 'Righteous', cursive;
   color: #E8474C;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.event_address {
+  position: absolute;
+  z-index: 2;
+  top: 150px;
+  width: 25%;
+  text-align: center;
+  font-family: 'Righteous', cursive;
+  color: #E8474C;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
 .group_name {
   font-family: 'Righteous', cursive;
   font-size: 90px;
   color: #E8474C;
-  border: chocolate 3px solid;
+  height: 250px;
+  /* border: chocolate 3px solid; */
 }
 
 .group_info_div {
@@ -1002,13 +1005,15 @@ label + input[type=radio] + label {
   display: flex;
   flex-flow: column;
   justify-content: flex-start;
-  border: cornflowerblue 4px solid;
+  /* border: cornflowerblue 4px solid; */
 }
 
 .group_desc {
-  margin-top: 15px;
   font-family: 'Righteous', cursive;
   color: rgb(255, 255, 255);
+  height: 190px;
+  overflow-y: scroll;
+  /* border: aquamarine 3px solid; */
 }
 
 
@@ -1020,12 +1025,7 @@ label + input[type=radio] + label {
   margin: auto;
   /* overflow-y: scroll; */
   /* justify-content: center; */
-  border: slateblue 3px solid;
-}
-
-a {
-  text-decoration: none;
-  margin-right: 10px;
+  /* border: slateblue 3px solid; */
 }
 
 figure {
@@ -1100,6 +1100,148 @@ figure figcaption p {
   color: #E8474C;
 }
 
+.regular_event_card {
+  position: relative;
+  overflow-y: scroll;
+  /* overflow: visible; */
+  width: 90%;
+  height: 500px;
+  background-image: url("http://localhost:3001/images/box_bkgnd.jpg");
+  box-shadow: 5px 8px 7px 5px rgba(192, 76, 76, 0.651);
+  background-repeat: no-repeat;
+  background-size: auto;
+  margin: auto;
+  margin-bottom: 25px;
+  overflow: hidden;
+  display: flex;
+  flex-flow: column;
+  /* border: #E8474C 4px solid; */
+  justify-content: space-between;
+}
+
+/* avatars */
+.avatars {
+  display: inline-flex;
+  flex-direction: row;
+  padding-left:50px;
+}
+
+.avatar {
+  margin-left: -25px;
+  position: relative;
+  border:1px solid #000000;
+  border-radius: 50%;
+  overflow:hidden;
+  width:50px;
+  height:50px;
+}
+
+.avatar img {
+  width:50px;
+  height:50px;
+}
+
+.avatar h1 {
+  width:50px;
+  height:50px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: 'Righteous', cursive;
+  color: black;
+}
+
+a {
+  text-decoration: none;
+  margin-right: 10px;
+  color: #E8474C;
+}
+/* end avatars */
 
 
+.profileHat {
+  margin-top: 15px;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-around;
+  /* border: slateblue 1px solid; */
+}
 
+.userImg {
+  width: 30vw;
+  max-height: 60vh;
+  border-radius: 15px;
+}
+
+.userNames {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.prettyfyUserNames {
+  width: 30vw;
+  max-height: 60vh;
+  background-color: rgba(241, 241, 241, 0.884);
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.user_info {
+  font-family: 'Righteous', cursive;
+  font-size: 50px;
+  color: #E8474C;
+  border-bottom: 2px dotted black;
+}
+
+.profileDescDiv {
+  width: 90%;
+  margin: auto;
+  /* border: 2px solid salmon; */
+}
+.profile_desc {
+  font-family: 'Righteous', cursive;
+  color: rgb(255, 255, 255);
+}
+
+.myActivities {
+  width: 100%;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  background-color: #E8474C;
+  /* border: 3px solid olive; */
+}
+
+.myTeams {
+  width: 90%;
+  margin: auto;
+  display: flex;
+  flex-direction: row wrap;
+  justify-content: center;
+  /* overflow-x: scroll; */
+  /* border: 3px solid olive; */
+}
+
+.team_card {
+  position: relative;
+  overflow-y: scroll;
+  /* overflow: visible; */
+  width: 90%;
+  /* height: 450px; */
+  background-image: url("http://localhost:3001/images/box_bkgnd.jpg");
+  background-size: 100%;
+  margin: auto;
+  margin-bottom: 25px;
+  overflow: hidden;
+  display: flex;
+  flex-flow: row wrap;
+  /* border: #E8474C 4px solid; */
+  justify-content: space-between;
+  box-shadow: 5px 8px 7px 5px rgba(192, 76, 76, 0.651);
+  margin-top: 25px;
+}

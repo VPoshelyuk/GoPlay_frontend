@@ -34,7 +34,7 @@ class TeamSearch extends React.Component{
                 {this.state.teamsAvailable.map(team => <TeamCard key={team.id} team={team.attributes}/>)}
             </Fragment>
             :
-            <div className="dash_main">
+            <div className="dash_main" style={{marginTop: "13vh"}}>
                 <h1 className="main_text" >Sorry, there are no teams created for this type of sport yet.</h1>
                 <h1 className="main_text" >It's a great opportunity to be the first: </h1>
                 <NavLink to="/dashboard" className="main_text">Go back to dashboard...</NavLink>
